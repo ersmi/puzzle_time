@@ -1,0 +1,4 @@
+# Python/Backend
+.env/
+*.pyc
+db.sqlite3
