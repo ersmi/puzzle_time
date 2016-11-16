@@ -5,6 +5,12 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { Page2 } from '../pages/page2/page2';
 import { UploadPage } from '../pages/upload/upload';
+import { ProfilePage } from '../pages/profile/profile';
+import { TimerPage } from '../pages/timer/timer';
+import { FriendListPage } from '../pages/friend-list/friend-list';
+import { GameInterfacePage } from '../pages/game-interface/game-interface';
+import { SelectActivityPage } from '../pages/select-activity/select-activity';
+import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 
 @NgModule({
   declarations: [
@@ -12,7 +18,13 @@ import { UploadPage } from '../pages/upload/upload';
     HomePage,
     Page2,
     LoginPage,
-    UploadPage
+    UploadPage,
+    ProfilePage,
+    TimerPage,
+    FriendListPage,
+    GameInterfacePage,
+    SelectActivityPage,
+    ChoosePuzzlePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -23,7 +35,13 @@ import { UploadPage } from '../pages/upload/upload';
     HomePage,
     Page2,
     LoginPage,
-    UploadPage
+    UploadPage,
+    ProfilePage,
+    TimerPage,
+    FriendListPage,
+    GameInterfacePage,
+    SelectActivityPage,
+    ChoosePuzzlePage
   ],
   providers: []
 })
