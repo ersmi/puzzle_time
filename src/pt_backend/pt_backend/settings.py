@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import psycopg2
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,23 +74,35 @@ WSGI_APPLICATION = 'pt_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# TODO: Leave sqlite3 for frontend devs to test against. They'll probably
+# not have both sudo rights and postgresql installed locally. 
 
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': '',                      
-        #'USER': '',
-        #'PASSWORD': '',
-        #'HOST': '',
-        #'PORT': '8001',
-    #}
-#}
+use_sqlite = False
+
+try:
+    #Attempt to connect to postgres default db
+    psycopg2.connect("dbname='pt_backend' user='team11' password='eecs581' host='localhost'")
+except psycopg2.OperationalError:
+    use_sqlite = True
+
+if use_sqlite:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'pt_backend',                      
+            'USER': 'team11',
+            'PASSWORD': 'eecs581',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
     
     
 # Update with dj_database for Heroku support
