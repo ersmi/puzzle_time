@@ -14,6 +14,8 @@ class Users(models.Model):
         pictures - (1:*) list of pictures user has uploaded.
         puzzles  - (1:*) list of puzzles the user has created.
     """
+    prof_pic = models.ImageField(upload_to='pics')
+    friends = models.ManyToManyField("self")
     
 class Pictures(models.Model):
     """

@@ -1,12 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-def home(request):
-    """
-    General page to serve links for web facing API.
-    """
-    return HttpResponse("<html><b>Not Implemented</b></html>")
-
 def login(request):
     """
     Handle login credentials supplied in request. 
