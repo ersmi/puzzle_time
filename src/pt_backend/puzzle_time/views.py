@@ -1,6 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from django.contrib.auth import authenticate, login
+
+
+from .models import Users, Pictures, Puzzles
+
 def login(request):
     """
     Handle login credentials supplied in request. 
@@ -9,7 +14,25 @@ def login(request):
     POST - Return either failure on no match for login information or create a
         new session for the user.
     """
-    return HttpResponse("<html><b>Not Implemented</b></html>")
+    if request.method == 'GET':
+        pass
+        #render(request, "puzzle_time/login.html")
+
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+
+        if user is None:
+            return HttpResponse("Failed to login: bad username or password", status=401)
+
+        login(request, user)
+        request.session['user'] = user.id
+        request.session.set_expiry(3600)
+        return HttpResponse("", status=200)
+
+    else:
+        return HttpResponse("%s is not supported." % request.method, status=400)
 
 def puzzle(request):
     """
@@ -23,6 +46,14 @@ def puzzle(request):
         progress passed in with the request.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
+    try:
+        user = Users.objects.get_object(id=request.session['id'])
+    except Users.DoesNotExistError:
+        pass
+
+    if request.method == 'GET':
+        pass
+    
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
 def picture(request):
