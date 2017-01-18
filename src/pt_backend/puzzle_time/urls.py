@@ -10,4 +10,5 @@ from . import views
 urlpatterns = [
     url(r'^login', views.login),
     url(r'^puzzle', views.puzzle),
+    url(r'^picture', views.picture),
 ]

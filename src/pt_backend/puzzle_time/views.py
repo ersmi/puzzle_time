@@ -10,13 +10,29 @@ def login(request):
     """
     Handle login credentials supplied in request. 
     
-    GET - Return the html/js page for creating a session through web browsers.
+    GET - Return information on the current user's session.
     POST - Return either failure on no match for login information or create a
         new session for the user.
     """
     if request.method == 'GET':
-        pass
-        #render(request, "puzzle_time/login.html")
+        
+        user_id = request.session.get('user', -1)
+        
+        if user_id == -1:
+            return HttpResponse("No user session exists", status=400)
+
+        try:
+            user = Users.objects.get_object(id=user_id)
+        except Users.DoesNotExist:
+            return HttpResponse("User does not exist",status=400)
+
+        context = {
+            userid : user.id,
+            profilepicture : user.prof_pic,
+            friends : user.friends
+        }
+        
+        render(request, "puzzle_time/login.html", context)
 
     elif request.method == 'POST':
         username = request.POST.get('username')
@@ -47,12 +63,70 @@ def puzzle(request):
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
     try:
-        user = Users.objects.get_object(id=request.session['id'])
-    except Users.DoesNotExistError:
+        # TODO: Change 1 from default into error checking.
+        user = Users.objects.get(id=request.session.get('user',1))
+    except Users.DoesNotExist:
         pass
 
     if request.method == 'GET':
-        pass
+        puzzle_id = request.GET.get('puzzleid')
+        try:
+            puzzle = user.puzzles_set.get(id=puzzle_id)
+        except Puzzles.DoesNotExist:
+            return HttpResponse("Puzzle %s does not exist" % puzzle_id, status=400)
+        
+        context = {
+            puzzle : puzzle,
+            picture : puzzle.picture,
+            userid : puzzle.owner.id,
+            puzzleid : puzzle.id
+        }
+
+        render(request, 'puzzle_time/puzzle.html', context)
+
+    elif request.method == 'POST':
+        
+        # Get picture for new puzzle
+        picture_id = request.POST.get('pictureid')
+        try:
+            picture = Pictures.objects.get(id=picture_id)
+        except Picture.DoesNotExist:
+            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+
+        new_puzzle = Users.puzzles_set.create(picture=picture)
+        new_puzzle.save()
+        
+        return HttpResponse("", status=200)
+
+    elif request.method == 'PUT':
+        
+        puzzle_id = request.POST.get('puzzleid')
+        try:
+            puzzle = Puzzles.objects.get(id=puzzle_id)
+        except Puzzle.DoesNotExist:
+            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+        
+        # Update progress
+        puzzle.progress = request.POST.get('progress')
+        
+        # NOTE: May need to add ability to change picture later.
+        
+        return HttpResponse("", status=200)
+
+    elif request.method == 'DELETE':
+        
+        puzzle_id = request.POST.get('puzzleid')
+        try:
+            puzzle = Puzzles.objects.get(id=puzzle_id)
+        except Puzzles.DoesNotExist:
+            return HttpResponse("Puzzle %d does not exist" % puzzle_id, status=400)
+        
+        puzzle.delete()
+        
+        return HttpResponse("", status=200)
+
+    else:
+        return HttpResponse("%s is not supported." % request.method, status=400)
     
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
