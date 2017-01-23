@@ -1,41 +1,39 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { SubmitPage } from '../submit/submit';
+import { HomePage } from '../home/home';
 
 /*
-  Generated class for the Upload page.
+  Generated class for the Submit page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-upload',
-  templateUrl: 'upload.html',
+  selector: 'page-submit',
+  templateUrl: 'submit.html',
   template: `<ion-header>
 	<ion-navbar>
 	    	<button ion-button menuToggle>
 	    	  <ion-icon name="menu"></ion-icon>
 	    	</button>
-    		<ion-title>Upload</ion-title>
+    		<ion-title>Submit</ion-title>
   		</ion-navbar>
 	</ion-header>
 
 	<ion-content padding>
-		<button ion-button full (click) = "goToSubmit()">UPLOAD</button>
+		<button ion-button full (click) = "goToHome()">SUBMIT</button>
 	</ion-content>`
 })
-export class UploadPage {
+export class SubmitPage {
 
-  constructor(public navCtrl: NavController) {
-  		this.navCtrl = navCtrl;
-  }
+  constructor(public navCtrl: NavController) {}
 
-  goToSubmit(){
-  	this.navCtrl.push(SubmitPage);
+  goToHome(){
+  	this.navCtrl.push(HomePage);
   }
 
   ionViewDidLoad() {
-    console.log('Hello UploadPage Page');
+    console.log('Hello SubmitPage Page');
   }
 
 }

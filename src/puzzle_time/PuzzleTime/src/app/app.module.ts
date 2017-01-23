@@ -7,6 +7,7 @@ import { Page2 } from '../pages/page2/page2';
 import { UploadPage } from '../pages/upload/upload';
 import { ProfilePage } from '../pages/profile/profile';
 import { TimerPage } from '../pages/timer/timer';
+import { SubmitPage } from '../pages/submit/submit';
 import { FriendListPage } from '../pages/friend-list/friend-list';
 import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
@@ -26,7 +27,8 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     GameInterfacePage,
     SelectActivityPage,
     ChoosePuzzlePage,
-    UserInfoComponent
+    UserInfoComponent,
+    SubmitPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -44,7 +46,8 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     GameInterfacePage,
     SelectActivityPage,
     ChoosePuzzlePage,
-    UserInfoComponent
+    UserInfoComponent,
+    SubmitPage
   ],
   providers: []
 })

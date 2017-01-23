@@ -6,7 +6,8 @@ import { HomePage } from '../pages/home/home';
 import { TimerPage } from '../pages/timer/timer';
 import { UploadPage } from '../pages/upload/upload';
 import { ProfilePage } from '../pages/profile/profile';
-import { FriendListPage } from '../pages/friend-list/friend-list' ;
+import { FriendListPage } from '../pages/friend-list/friend-list';
+import { SubmitPage } from '../pages/submit/submit';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,7 +28,8 @@ export class MyApp {
       { title: 'Timer', component: TimerPage },
       { title: 'Upload', component: UploadPage },
       { title: 'Profile', component: ProfilePage},
-      { title: 'Friend List', component: FriendListPage}
+      { title: 'Friend List', component: FriendListPage},
+      { title: 'Submit', component: SubmitPage}
     ];
 
   }
