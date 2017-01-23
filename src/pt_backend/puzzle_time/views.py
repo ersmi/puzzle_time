@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from django.contrib.auth import authenticate, login
-
+from django.contrib.auth.models import User as DjangoUser
 
 from .models import Users, Pictures, Puzzles
 
@@ -17,22 +17,23 @@ def login(request):
     if request.method == 'GET':
         
         user_id = request.session.get('user', -1)
+        #user_id = 1
         
         if user_id == -1:
             return HttpResponse("No user session exists", status=400)
 
         try:
-            user = Users.objects.get_object(id=user_id)
+            user = Users.objects.get(id=user_id)
         except Users.DoesNotExist:
             return HttpResponse("User does not exist",status=400)
 
         context = {
-            userid : user.id,
-            profilepicture : user.prof_pic,
-            friends : user.friends
+            'userid' : user.id,
+            'profilepicture' : user.prof_pic,
+            'friends' : user.friends
         }
         
-        render(request, "puzzle_time/login.html", context)
+        return render(request, "puzzle_time/login.html", context)
 
     elif request.method == 'POST':
         username = request.POST.get('username')
@@ -76,13 +77,13 @@ def puzzle(request):
             return HttpResponse("Puzzle %s does not exist" % puzzle_id, status=400)
         
         context = {
-            puzzle : puzzle,
-            picture : puzzle.picture,
-            userid : puzzle.owner.id,
-            puzzleid : puzzle.id
+            'puzzle' : puzzle,
+            'picture' : puzzle.picture,
+            'userid' : puzzle.owner.id,
+            'puzzleid' : puzzle.id
         }
 
-        render(request, 'puzzle_time/puzzle.html', context)
+        return render(request, 'puzzle_time/puzzle.html', context)
 
     elif request.method == 'POST':
         
@@ -139,6 +140,40 @@ def picture(request):
     GET - Return the picture specified by the passed in id from client.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
+    
+    if request.method == 'GET':
+        
+        picture_id = request.GET.get('pictureid')
+        try:
+            picture = Pictures.objects.get(id=picture_id)
+        except Pictures.DoesNotExist:
+            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+        
+        context = {
+            'picturelink' : picture.link,
+            'picturename' : picture.name,
+            'pictureownerid' : picture.owner.id,
+            'picturetags' : picture.gettags(),
+        }
+
+        return render(request, "puzzle_time/picture.html", context)
+
+    elif request.method == 'POST':
+
+        return HttpResponse("<html><b>Not Implemented</b></html>")
+    
+    elif requst.method == 'DELETE':
+
+        picture_id = request.POST.get('pictureid')
+        try:
+            picture = Pictures.objects.get(id=puzzle_id)
+        except Pictures.DoesNotExist:
+            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+
+        picture.delete()
+
+        return HttpResponse("", status=200)
+
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
 def user(request):
@@ -151,4 +186,49 @@ def user(request):
         ->  Will need to handle removing user's assets in pictures/puzzles
     PUT - Update user information with that supplied in the request.
     """
+    
+    try:
+        # TODO: Change 1 from default into error checking.
+        user = Users.objects.get(id=request.session.get('user',1))
+    except Users.DoesNotExist:
+        pass
+
+    if request.method == 'GET':
+
+        context = {
+            'userid' : user.id,
+            'friendslist' : user.friends_set,
+            'userprofpic' : user.prof_pic,
+            #TODO: username?, Users model is limited.
+        }
+        
+        return render(request, "puzzle_time/user.html", context)
+
+    elif request.method == 'POST':
+
+        # Create new user.
+
+        try:
+            DjangoUser.objects.get(username=form.cleaned_data['username'])
+        except User.DoesNotExist:
+            #Initialize user account:
+            user = DjangoUser.objects.create_user(
+                form.cleaned_data['username'],
+                '',
+                form.cleaned_data['password'])
+            user.save()
+            user = authenticate(**form.cleaned_data)
+
+            login(request, user)
+            request.session['user'] = user.id
+            request.session.set_expiry(3600)
+            return HttpResponse("", status=200)
+
+
+        #HttpResponse("<html><b>Not Implemented</b></html>")
+
+    elif request.method == 'PUT':
+
+        HttpResponse("<html><b>Not Implemented</b></html>")
+    
     return HttpResponse("<html><b>Not Implemented</b></html>")
