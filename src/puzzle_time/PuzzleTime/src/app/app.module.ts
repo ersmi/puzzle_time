@@ -11,6 +11,7 @@ import { FriendListPage } from '../pages/friend-list/friend-list';
 import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
+import { UserInfoComponent } from '../components/user-info/user-info';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
     FriendListPage,
     GameInterfacePage,
     SelectActivityPage,
-    ChoosePuzzlePage
+    ChoosePuzzlePage,
+    UserInfoComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -41,7 +43,8 @@ import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
     FriendListPage,
     GameInterfacePage,
     SelectActivityPage,
-    ChoosePuzzlePage
+    ChoosePuzzlePage,
+    UserInfoComponent
   ],
   providers: []
 })
