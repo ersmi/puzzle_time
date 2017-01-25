@@ -13,6 +13,7 @@ import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
+import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,9 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     GameInterfacePage,
     SelectActivityPage,
     ChoosePuzzlePage,
+    SubmitPage,
     UserInfoComponent,
-    SubmitPage
+    GalleryCardComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -46,8 +48,9 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     GameInterfacePage,
     SelectActivityPage,
     ChoosePuzzlePage,
+    SubmitPage,
     UserInfoComponent,
-    SubmitPage
+    GalleryCardComponent
   ],
   providers: []
 })
