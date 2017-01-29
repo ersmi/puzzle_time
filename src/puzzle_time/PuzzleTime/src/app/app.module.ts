@@ -14,6 +14,7 @@ import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
 import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
+import { PuzzleComponent } from '../components/puzzle/puzzle';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
     SubmitPage,
     UserInfoComponent,
     GalleryCardComponent,
+    PuzzleComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -50,7 +52,8 @@ import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
     ChoosePuzzlePage,
     SubmitPage,
     UserInfoComponent,
-    GalleryCardComponent
+    GalleryCardComponent,
+    PuzzleComponent
   ],
   providers: []
 })
