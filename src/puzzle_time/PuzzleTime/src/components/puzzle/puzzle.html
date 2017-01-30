@@ -5,8 +5,5 @@
   for more info on Angular 2 Components.
 -->
 
-<ion-content>
-<ion-item>
-	<img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Titchwell_saltmarsh_-_geograph.org.uk_-_789979.jpg" alt="didn't load">
-</ion-item>
-</ion-content>
+  <canvas id="gridOverlay" width="1" height="1"></canvas>
+	<img id="puzzleImg" src="https://upload.wikimedia.org/wikipedia/commons/6/65/Titchwell_saltmarsh_-_geograph.org.uk_-_789979.jpg" alt="didn't load" (load)="drawGrid()">

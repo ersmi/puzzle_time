@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserInfoComponent } from './../user-info/user-info';
+import { PuzzleComponent } from './../puzzle/puzzle';
 
 /*
   Generated class for the GalleryCard component.
@@ -10,7 +11,7 @@ import { UserInfoComponent } from './../user-info/user-info';
 @Component({
   selector: 'gallery-card',
   templateUrl: 'gallery-card.html',
-  entryComponents: [UserInfoComponent]
+  entryComponents: [UserInfoComponent, PuzzleComponent]
 })
 export class GalleryCardComponent {
 
