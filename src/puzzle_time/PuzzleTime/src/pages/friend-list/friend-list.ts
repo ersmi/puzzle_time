@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { UserInfoComponent } from './../../components/user-info/user-info';
+import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
 /*
   Generated class for the FriendList page.
 
@@ -10,7 +10,7 @@ import { UserInfoComponent } from './../../components/user-info/user-info';
 @Component({
   selector: 'page-friend-list',
   templateUrl: 'friend-list.html',
-  entryComponents: [UserInfoComponent]
+  entryComponents: [GalleryCardComponent]
 })
 export class FriendListPage {
 
