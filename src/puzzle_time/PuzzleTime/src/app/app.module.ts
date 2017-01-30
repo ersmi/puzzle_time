@@ -13,6 +13,7 @@ import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
+import { TimeComponent } from '../components/time/time';
 import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
 import { PuzzleComponent } from '../components/puzzle/puzzle';
 
@@ -31,6 +32,7 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
     ChoosePuzzlePage,
     SubmitPage,
     UserInfoComponent,
+    TimeComponent,
     GalleryCardComponent,
     PuzzleComponent
   ],
@@ -52,6 +54,7 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
     ChoosePuzzlePage,
     SubmitPage,
     UserInfoComponent,
+    TimeComponent,
     GalleryCardComponent,
     PuzzleComponent
   ],

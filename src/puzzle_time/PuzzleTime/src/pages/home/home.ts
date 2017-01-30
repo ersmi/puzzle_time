@@ -12,21 +12,7 @@ import { UploadPage } from '../upload/upload';
 */
 @Component({
 	  	selector: 'page-home',
-	  	templateUrl: 'home.html',
-	  	template: `<ion-header>
-	<ion-navbar>
-	    	<button ion-button menuToggle>
-	    	  <ion-icon name="menu"></ion-icon>
-	    	</button>
-    		<ion-title>Home</ion-title>
-  		</ion-navbar>
-	</ion-header>
-
-	<ion-content padding>
-		<button ion-button full (click) = "goToTimer()" >START</button>		
-		<button ion-button full (click) = "goToProfile()">PROFILE</button>
-		<button ion-button full (click) = "goToUpload()">UPLOAD</button>
-	</ion-content>`
+	  	templateUrl: 'home.html'
 })
 
 export class HomePage {
