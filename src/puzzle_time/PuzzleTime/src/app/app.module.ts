@@ -13,6 +13,7 @@ import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
+import { TimeComponent } from '../components/time/time';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     SelectActivityPage,
     ChoosePuzzlePage,
     UserInfoComponent,
+    TimeComponent,
     SubmitPage
   ],
   imports: [
@@ -47,6 +49,7 @@ import { UserInfoComponent } from '../components/user-info/user-info';
     SelectActivityPage,
     ChoosePuzzlePage,
     UserInfoComponent,
+    TimeComponent,
     SubmitPage
   ],
   providers: []

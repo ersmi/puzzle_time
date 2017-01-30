@@ -10,19 +10,7 @@ import { SubmitPage } from '../submit/submit';
 */
 @Component({
   selector: 'page-upload',
-  templateUrl: 'upload.html',
-  template: `<ion-header>
-	<ion-navbar>
-	    	<button ion-button menuToggle>
-	    	  <ion-icon name="menu"></ion-icon>
-	    	</button>
-    		<ion-title>Upload</ion-title>
-  		</ion-navbar>
-	</ion-header>
-
-	<ion-content padding>
-		<button ion-button full (click) = "goToSubmit()">UPLOAD</button>
-	</ion-content>`
+  templateUrl: 'upload.html'
 })
 export class UploadPage {
 

@@ -10,19 +10,7 @@ import { HomePage } from '../home/home';
 */
 @Component({
   selector: 'page-submit',
-  templateUrl: 'submit.html',
-  template: `<ion-header>
-	<ion-navbar>
-	    	<button ion-button menuToggle>
-	    	  <ion-icon name="menu"></ion-icon>
-	    	</button>
-    		<ion-title>Submit</ion-title>
-  		</ion-navbar>
-	</ion-header>
-
-	<ion-content padding>
-		<button ion-button full (click) = "goToHome()">SUBMIT</button>
-	</ion-content>`
+  templateUrl: 'submit.html'
 })
 export class SubmitPage {
 

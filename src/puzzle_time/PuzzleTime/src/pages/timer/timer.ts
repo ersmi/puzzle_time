@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
+import { TimeComponent } from './../../components/time/time';
 
 /*
   Generated class for the Timer page.
@@ -9,14 +10,19 @@ import { NavController } from 'ionic-angular';
 */
 @Component({
   selector: 'page-timer',
-  templateUrl: 'timer.html'
+  templateUrl: 'timer.html',
+  entryComponents: [TimeComponent]
 })
 export class TimerPage {
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
+  }
 
   ionViewDidLoad() {
     console.log('Hello TimerPage Page');
   }
 
+  startTime(){
+  		
+  }
 }
