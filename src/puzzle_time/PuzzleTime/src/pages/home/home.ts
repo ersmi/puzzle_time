@@ -3,6 +3,8 @@ import { NavController } from 'ionic-angular';
 import { TimerPage } from '../timer/timer';
 import { ProfilePage } from '../profile/profile';
 import { UploadPage } from '../upload/upload';
+import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
+
 
 /*
   Generated class for the Home page.
@@ -12,7 +14,8 @@ import { UploadPage } from '../upload/upload';
 */
 @Component({
 	  	selector: 'page-home',
-	  	templateUrl: 'home.html'
+	  	templateUrl: 'home.html',
+      entryComponents: [GalleryCardComponent]
 })
 
 export class HomePage {
