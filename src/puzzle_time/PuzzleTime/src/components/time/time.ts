@@ -16,6 +16,8 @@ export class TimeComponent {
    
   constructor() {
     let betterTimer = Observable.timer(0,1000);
-    betterTimer.subscribe(t=>this.clock = " <br></br><br></br>" + (Math.floor((360-t) / 60)).toString() + ":" + (60 - t % 60 == 60 ? "00" : (60 - t % 60 < 10 ? "0" + (60 - t % 60).toString() : (60 - t % 60).toString())));
+    betterTimer.subscribe(t=>this.clock = (t > 360 ? "00" : Math.floor((360-t) / 60).toString())
+    + ":" 
+    + (60 - t % 60 == 60 || t > 360 ? "00" : (60 - t % 60 < 10 ? "0" + (60 - t % 60).toString() : (60 - t % 60).toString())));
   }
 }
