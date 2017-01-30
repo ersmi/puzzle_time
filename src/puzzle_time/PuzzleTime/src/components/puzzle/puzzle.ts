@@ -12,8 +12,8 @@ import { Component } from '@angular/core';
 })
 export class PuzzleComponent {
 
-  columns:number = 3;
-  rows:number = 3;
+  columns:number = 4;
+  rows:number = 4;
   //least significant bit is top left, increases left to right, top to bottom
   //1 means we have obtained that piece, 0 is a hole.
   piecesData:number = 0b011000011;
@@ -31,7 +31,8 @@ export class PuzzleComponent {
     overlay.height = puzzleImg.height;
     let pieceWidth = puzzleImg.width / this.columns;
     let pieceHeight = puzzleImg.height / this.rows;
-    let pData:number = this.piecesData; //copy so we can modify
+    //let pData:number = this.piecesData; //copy so we can modify
+    let pData:number = Math.floor(Math.random() * 0b1111111111111111);
     let topData:number = pData << this.columns;
     let leftData:number = pData << 1;
     overlayContext.fillStyle = "#F0F0F0";
