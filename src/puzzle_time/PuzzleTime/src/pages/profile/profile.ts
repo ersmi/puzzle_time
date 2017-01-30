@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { FriendListPage } from '../friend-list/friend-list';
 
 /*
   Generated class for the Profile page.
@@ -17,6 +18,10 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log('Hello ProfilePage Page');
+  }
+
+  goToFriends(){
+  	this.navCtrl.push(FriendListPage);
   }
 
 }
