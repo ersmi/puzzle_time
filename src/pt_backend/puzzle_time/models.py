@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+import json
+
 # Create your models here.
 
 class Users(models.Model):
@@ -11,9 +13,14 @@ class Users(models.Model):
     Should have fields:
         prof_pic - (1)url to user's uploaded profile picture.
         friends  - (*:*) list of users that user is friends with.
+        link - (1) url to picture file
     """
     prof_pic = models.ImageField(upload_to='pics')
+    link = models.URLField(max_length=200)
     friends = models.ManyToManyField("self")
+
+    def __unicode__(self):
+        return "%d" % self.id
     
 class Pictures(models.Model):
     """
@@ -37,6 +44,9 @@ class Pictures(models.Model):
     def gettags(self):
         return json.loads(self.tags)
 
+    def __unicode__(self):
+        return "%d %s" % (self.owner.id, self.name)
+
 class Puzzles(models.Model):
     """
     Table for puzzles. Will be mostly blank since the relationships
@@ -52,3 +62,6 @@ class Puzzles(models.Model):
     progress = models.CharField(max_length=200)
     picture = models.ForeignKey('Pictures',on_delete=models.CASCADE)
     owner = models.ForeignKey('Users')
+
+    def __unicode__(self):
+        return "%d %s" % (self.owner.id, self.picture.name)
