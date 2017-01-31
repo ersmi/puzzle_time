@@ -1,11 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as DjangoLogin
 from django.contrib.auth.models import User as DjangoUser
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Users, Pictures, Puzzles
 
+@csrf_exempt
 def login(request):
     """
     Handle login credentials supplied in request. 
@@ -16,7 +19,9 @@ def login(request):
     """
     if request.method == 'GET':
         
-        user_id = request.session.get('user', -1)
+        user_id = request.session.get('_auth_user_id', -1)
+        #print request.session.keys()
+        #print user_id
         #user_id = 1
         
         if user_id == -1:
@@ -43,14 +48,17 @@ def login(request):
         if user is None:
             return HttpResponse("Failed to login: bad username or password", status=401)
 
-        login(request, user)
-        request.session['user'] = user.id
-        request.session.set_expiry(3600)
+        DjangoLogin(request, user)
+        #request.session['user'] = user.id
+        #request.session.set_expiry(3600)
+        #request.session.save()
+        #print request.session.keys()
         return HttpResponse("", status=200)
 
     else:
         return HttpResponse("%s is not supported." % request.method, status=400)
 
+@csrf_exempt
 def puzzle(request):
     """
     Handle requests involving the puzzles.
@@ -65,7 +73,7 @@ def puzzle(request):
     """
     try:
         # TODO: Change 1 from default into error checking.
-        user = Users.objects.get(id=request.session.get('user',1))
+        user = Users.objects.get(id=request.session.get('user',2))
     except Users.DoesNotExist:
         pass
 
@@ -75,6 +83,8 @@ def puzzle(request):
             puzzle = user.puzzles_set.get(id=puzzle_id)
         except Puzzles.DoesNotExist:
             return HttpResponse("Puzzle %s does not exist" % puzzle_id, status=400)
+        
+        print dir(puzzle)
         
         context = {
             'puzzle' : puzzle,
@@ -94,7 +104,7 @@ def puzzle(request):
         except Picture.DoesNotExist:
             return HttpResponse("Picture %d does not exist" % picture_id, status=400)
 
-        new_puzzle = Users.puzzles_set.create(picture=picture)
+        new_puzzle = Puzzles.objects.create(picture=picture, owner=user)
         new_puzzle.save()
         
         return HttpResponse("", status=200)
@@ -147,7 +157,7 @@ def picture(request):
         try:
             picture = Pictures.objects.get(id=picture_id)
         except Pictures.DoesNotExist:
-            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+            return HttpResponse("Picture %s does not exist" % picture_id, status=400)
         
         context = {
             'picturelink' : picture.link,
@@ -168,7 +178,7 @@ def picture(request):
         try:
             picture = Pictures.objects.get(id=puzzle_id)
         except Pictures.DoesNotExist:
-            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+            return HttpResponse("Picture %s does not exist" % picture_id, status=400)
 
         picture.delete()
 
