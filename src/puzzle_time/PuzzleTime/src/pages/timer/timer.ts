@@ -18,7 +18,7 @@ import { GalleryComponent } from './../../components/gallery/gallery';
 export class TimerPage {
 
   constructor(public navCtrl: NavController) {
-    this.navCtrl = navCtrl;
+  	this.navCtrl = navCtrl;
   }
 
   ionViewDidLoad() {
