@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { GalleryCardComponent } from './../gallery-card/gallery-card';
+
 
 /*
   Generated class for the Gallery component.
@@ -8,15 +10,14 @@ import { Component } from '@angular/core';
 */
 @Component({
   selector: 'gallery',
-  templateUrl: 'gallery.html'
+  templateUrl: 'gallery.html',
+  entryComponents: [GalleryCardComponent]
 })
 export class GalleryComponent {
 
-  text: string;
+  //text: string;
 
   constructor() {
-    console.log('Hello Gallery Component');
-    this.text = 'Hello World';
   }
 
 }

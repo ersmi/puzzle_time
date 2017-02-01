@@ -52,13 +52,13 @@ export class PuzzleComponent {
           if(r == 0 || topData & 1){
             overlayContext.beginPath();
             overlayContext.moveTo((pieceWidth * c) + 1, (pieceHeight * r) + 2);
-            overlayContext.lineTo((pieceWidth * (c + 1)) - 1, (pieceHeight * r) + 2);
+            overlayContext.lineTo((pieceWidth * (c + 1)) + 1, (pieceHeight * r) + 2);
             overlayContext.stroke();
           }
           if(c == 0 || leftData & 1){
             overlayContext.beginPath();
             overlayContext.moveTo((pieceWidth * c) + 2, (pieceHeight * r) + 1);
-            overlayContext.lineTo((pieceWidth * c) + 2, (pieceHeight * (r + 1)) - 1);
+            overlayContext.lineTo((pieceWidth * c) + 2, (pieceHeight * (r + 1)) + 1);
             overlayContext.stroke();
           }
           overlayContext.strokeStyle = "#DCDCDC";
