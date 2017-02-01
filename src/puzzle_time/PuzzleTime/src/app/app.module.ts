@@ -15,6 +15,7 @@ import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
 import { TimeComponent } from '../components/time/time';
 import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
+import { GalleryComponent } from '../components/gallery/gallery';
 import { PuzzleComponent } from '../components/puzzle/puzzle';
 
 @NgModule({
@@ -34,7 +35,8 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
     UserInfoComponent,
     TimeComponent,
     GalleryCardComponent,
-    PuzzleComponent
+    PuzzleComponent,
+    GalleryComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -56,7 +58,8 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
     UserInfoComponent,
     TimeComponent,
     GalleryCardComponent,
-    PuzzleComponent
+    PuzzleComponent,
+    GalleryComponent
   ],
   providers: []
 })

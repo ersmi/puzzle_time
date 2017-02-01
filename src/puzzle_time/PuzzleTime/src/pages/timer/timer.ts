@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { TimeComponent } from './../../components/time/time';
-import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
+import { GalleryComponent } from './../../components/gallery/gallery';
 
 
 /*
@@ -13,7 +13,7 @@ import { GalleryCardComponent } from './../../components/gallery-card/gallery-ca
 @Component({
   selector: 'page-timer',
   templateUrl: 'timer.html',
-  entryComponents: [TimeComponent, GalleryCardComponent]
+  entryComponents: [TimeComponent, GalleryComponent]
 })
 export class TimerPage {
 
