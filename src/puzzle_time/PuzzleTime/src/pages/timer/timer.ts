@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TimeComponent } from './../../components/time/time';
 import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
 
@@ -17,14 +17,12 @@ import { GalleryCardComponent } from './../../components/gallery-card/gallery-ca
 })
 export class TimerPage {
 
-  constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController) {
+    this.navCtrl = navCtrl;
   }
 
   ionViewDidLoad() {
     console.log('Hello TimerPage Page');
   }
 
-  startTime(){
-  		
-  }
 }

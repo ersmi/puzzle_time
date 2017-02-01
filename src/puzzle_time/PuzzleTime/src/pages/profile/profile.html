@@ -9,10 +9,16 @@
 	    	<button ion-button menuToggle>
 	    	  <ion-icon name="menu"></ion-icon>
 	    	</button>
-    		<ion-title>Submit</ion-title>
+    		<ion-title>Profile</ion-title>
   		</ion-navbar>
 	</ion-header>
 
 	<ion-content padding>
 		<button ion-button full (click) = "goToFriends()">VIEW FRIENDS</button>
+		<div class="navButtons">
+		<gallery-card></gallery-card>
+		<button class="nav" ion-button (click) = "goLeft()"><</button>
+		&ensp;  <span [innerHTML]="picNum"></span> &ensp;
+		<button class="nav" ion-button (click) = "goRight()">></button>
+		</div>
 	</ion-content>
