@@ -150,6 +150,12 @@ def picture(request):
     GET - Return the picture specified by the passed in id from client.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
+
+    try:
+        # TODO: Change 1 from default into error checking.
+        user = Users.objects.get(id=request.session.get('user',2))
+    except Users.DoesNotExist:
+        pass
     
     if request.method == 'GET':
         
@@ -170,7 +176,14 @@ def picture(request):
 
     elif request.method == 'POST':
 
-        return HttpResponse("<html><b>Not Implemented</b></html>")
+        picture = request.POST.get('pic')
+        picture_name = request.POST.get('picname')
+	
+        new_picture = Pictures.objects.create(photo=picture, name=picture_name, owner=user)
+        new_picture.save()
+        
+        return HttpResponse("", status=200)
+        #return HttpResponse("<html><b>Not Implemented</b></html>")
     
     elif requst.method == 'DELETE':
 

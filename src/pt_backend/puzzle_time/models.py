@@ -33,7 +33,7 @@ class Pictures(models.Model):
         tags    - (*) list of terms to be used to group the picture.
 
     """
-    link = models.URLField(max_length=200)
+    photo = models.ImageField(upload_to='pics')
     name = models.CharField(max_length=200)
     owner = models.ForeignKey('Users')
     tags = models.CharField(max_length=200)
