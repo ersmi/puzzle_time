@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
+from django.core.files import File
 from django.db import models
 
+from StringIO import StringIO
 import json
 
 # Create your models here.
@@ -15,6 +17,7 @@ class Users(models.Model):
         friends  - (*:*) list of users that user is friends with.
         link - (1) url to picture file
     """
+    display_name = models.CharField(max_length=200)
     prof_pic = models.ImageField(upload_to='pics')
     link = models.URLField(max_length=200)
     friends = models.ManyToManyField("self")
@@ -46,6 +49,11 @@ class Pictures(models.Model):
 
     def __unicode__(self):
         return "%d %s" % (self.owner.id, self.name)
+
+    def savefile(self, binstr):
+        flo = StringIO(binstr)
+        self.photo.save('%s%s.png' % (self.id, self.owner.display_name), File(flo))
+        self.save()
 
 class Puzzles(models.Model):
     """

@@ -8,6 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Users, Pictures, Puzzles
 
+# TODO: if friend got a new piece since last online
+# TODO: send userid, get friends most recent puzzles
+
+
 @csrf_exempt
 def login(request):
     """
@@ -19,10 +23,14 @@ def login(request):
     """
     if request.method == 'GET':
         
-        user_id = request.session.get('_auth_user_id', -1)
+        # TODO: Session support
+        
+        user_id = request.session.get('user')
         #print request.session.keys()
         #print user_id
         #user_id = 1
+        
+        #user_id = request.GET.get('user')
         
         if user_id == -1:
             return HttpResponse("No user session exists", status=400)
@@ -34,8 +42,9 @@ def login(request):
 
         context = {
             'userid' : user.id,
+            'puzzles' : [x.id for x in u.puzzles_set.all()],
             'profilepicture' : user.prof_pic,
-            'friends' : user.friends
+            'friends' : [x.id for x in u.friends.all()]
         }
         
         return render(request, "puzzle_time/login.html", context)
@@ -49,11 +58,14 @@ def login(request):
             return HttpResponse("Failed to login: bad username or password", status=401)
 
         DjangoLogin(request, user)
+        #request.session.create()
         #request.session['user'] = user.id
         #request.session.set_expiry(3600)
         #request.session.save()
         #print request.session.keys()
-        return HttpResponse("", status=200)
+        #print request.session.session_key
+        #return HttpResponse("", status=200)
+        return render(request, "puzzle_time/login.html", context={})
 
     else:
         return HttpResponse("%s is not supported." % request.method, status=400)
@@ -84,11 +96,11 @@ def puzzle(request):
         except Puzzles.DoesNotExist:
             return HttpResponse("Puzzle %s does not exist" % puzzle_id, status=400)
         
-        print dir(puzzle)
+        #print dir(puzzle)
         
         context = {
             'puzzle' : puzzle,
-            'picture' : puzzle.picture,
+            'picture' : puzzle.picture.photo.url,
             'userid' : puzzle.owner.id,
             'puzzleid' : puzzle.id
         }
@@ -141,6 +153,7 @@ def puzzle(request):
     
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
+@csrf_exempt
 def picture(request):
     """
     Handle requests involving pictures.
@@ -150,12 +163,6 @@ def picture(request):
     GET - Return the picture specified by the passed in id from client.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
-
-    try:
-        # TODO: Change 1 from default into error checking.
-        user = Users.objects.get(id=request.session.get('user',2))
-    except Users.DoesNotExist:
-        pass
     
     if request.method == 'GET':
         
@@ -166,7 +173,7 @@ def picture(request):
             return HttpResponse("Picture %s does not exist" % picture_id, status=400)
         
         context = {
-            'picturelink' : picture.link,
+            'picturelink' : picture.photo.url,
             'picturename' : picture.name,
             'pictureownerid' : picture.owner.id,
             'picturetags' : picture.gettags(),
@@ -176,14 +183,14 @@ def picture(request):
 
     elif request.method == 'POST':
 
-        picture = request.POST.get('pic')
-        picture_name = request.POST.get('picname')
-	
-        new_picture = Pictures.objects.create(photo=picture, name=picture_name, owner=user)
-        new_picture.save()
-        
+        files = request.FILES.get('file')
+        picture = files.read()
+        picture_name = files.name
+        user = Users.objects.get(id=2)
+        new_picture = Pictures.objects.create(name=picture_name, owner=user)
+        new_picture.savefile(picture)
+
         return HttpResponse("", status=200)
-        #return HttpResponse("<html><b>Not Implemented</b></html>")
     
     elif requst.method == 'DELETE':
 
@@ -199,58 +206,75 @@ def picture(request):
 
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
+@csrf_exempt
 def user(request):
     """
     Handle requests involving user information.
     
     GET - Return information about user specified within the id passed in.
         ->  407 if the user doesn't have permission to view passed in id.
+    POST - Create new user account
     DELETE - Remove user specified by passed in id value. 
         ->  Will need to handle removing user's assets in pictures/puzzles
     PUT - Update user information with that supplied in the request.
     """
-    
     try:
         # TODO: Change 1 from default into error checking.
-        user = Users.objects.get(id=request.session.get('user',1))
+        user = Users.objects.get(id=request.session.get('user'))
     except Users.DoesNotExist:
-        pass
+        user = None
 
     if request.method == 'GET':
 
         context = {
             'userid' : user.id,
-            'friendslist' : user.friends_set,
+            'friendslist' : [x.id for x in user.friends.all()],
             'userprofpic' : user.prof_pic,
-            #TODO: username?, Users model is limited.
+            'displayname' : user.display_name
         }
         
-        return render(request, "puzzle_time/user.html", context)
+        return render(request, "puzzle_time/login.html", context)
 
     elif request.method == 'POST':
 
         # Create new user.
-
+        
         try:
-            DjangoUser.objects.get(username=form.cleaned_data['username'])
-        except User.DoesNotExist:
+            DjangoUser.objects.get(username=request.POST.get('username'))
+        except DjangoUser.DoesNotExist:
             #Initialize user account:
             user = DjangoUser.objects.create_user(
-                form.cleaned_data['username'],
+                request.POST.get('username'),
                 '',
-                form.cleaned_data['password'])
+                request.POST.get('password'))
             user.save()
-            user = authenticate(**form.cleaned_data)
+            user = authenticate(request.POST.get('username'),request.POST.get('password'))
 
             login(request, user)
-            request.session['user'] = user.id
-            request.session.set_expiry(3600)
-            return HttpResponse("", status=200)
+            #request.session.create()
+            #request.session['user'] = user.id
+            #request.session.set_expiry(3600)
+            #request.session.save()
+            # Initialize app account:
+            pt_user = Users.create(id=user.id, display_name=user.username)
+            pt_user.save()
+
+            # TODO: return same context as above.
+            return HttpResponse('', status=200)
 
 
-        #HttpResponse("<html><b>Not Implemented</b></html>")
+        HttpResponse('User already exists')
 
     elif request.method == 'PUT':
+        
+        putparams = request.body.split('&')
+        put = {putparams[x].split('=')[0]:putparams[x].split('=')[1] for x in range(len(putparams))}
+
+        for key in request.POST.keys():
+            print key
+        
+        #if request.POST.get('profilepicture'):
+            #user.prof_pic = 
 
         HttpResponse("<html><b>Not Implemented</b></html>")
     
