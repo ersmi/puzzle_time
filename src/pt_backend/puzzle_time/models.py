@@ -19,7 +19,6 @@ class Users(models.Model):
     """
     display_name = models.CharField(max_length=200)
     prof_pic = models.ImageField(upload_to='pics')
-    link = models.URLField(max_length=200)
     friends = models.ManyToManyField("self")
 
     def __unicode__(self):
