@@ -43,7 +43,7 @@ def login(request):
         context = {
             'userid' : user.id,
             'puzzles' : [x.id for x in u.puzzles_set.all()],
-            'profilepicture' : user.prof_pic,
+            'profilepicture' : user.prof_pic.photo.url,
             'friends' : [x.id for x in u.friends.all()]
         }
         
@@ -99,10 +99,10 @@ def puzzle(request):
         #print dir(puzzle)
         
         context = {
-            'puzzle' : puzzle,
             'picture' : puzzle.picture.photo.url,
-            'userid' : puzzle.owner.id,
-            'puzzleid' : puzzle.id
+            'ownerid' : puzzle.owner.id,
+            'puzzleid' : puzzle.id,
+            'progress' : puzzle.progress
         }
 
         return render(request, 'puzzle_time/puzzle.html', context)
@@ -173,6 +173,7 @@ def picture(request):
             return HttpResponse("Picture %s does not exist" % picture_id, status=400)
         
         context = {
+            'pictureid' : picture.id,
             'picturelink' : picture.photo.url,
             'picturename' : picture.name,
             'pictureownerid' : picture.owner.id,
@@ -226,10 +227,17 @@ def user(request):
 
     if request.method == 'GET':
 
+        user_id = request.GET.get('userid')
+        
+        try:
+            user = Users.objects.get(id=user_id)
+        except Users.DoesNotExist:
+            return HttpResponse("User does not exist",status=400)
+
         context = {
             'userid' : user.id,
             'friendslist' : [x.id for x in user.friends.all()],
-            'userprofpic' : user.prof_pic,
+            'userprofpic' : user.prof_pic.url,
             'displayname' : user.display_name
         }
         
