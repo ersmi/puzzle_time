@@ -21,6 +21,19 @@ export class PuzzleComponent {
   constructor() {
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
+    this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
+  }
+
+  canvasClicked(evt){
+    let overlay:HTMLCanvasElement = document.getElementById("gridOverlay") as HTMLCanvasElement;
+    let xpos:number = Math.floor(((evt.offsetX) * this.columns)/overlay.width);
+    let ypos:number = Math.floor(((evt.offsetY) * this.rows)/overlay.height);
+    console.log("xpos = " + xpos + ", ypos = " + ypos);
+    let pData:number = this.piecesData >> (xpos + ypos * this.columns);
+    if(!(pData & 1)){
+      this.piecesData += Math.pow(2, (xpos + ypos * this.columns));
+      this.drawGrid();
+    }
   }
 
   drawGrid(){
@@ -29,10 +42,11 @@ export class PuzzleComponent {
     let puzzleImg:HTMLImageElement = document.getElementById("puzzleImg") as HTMLImageElement;
     overlay.width = puzzleImg.width;
     overlay.height = puzzleImg.height;
+    overlayContext.clearRect(0, 0, overlay.width, overlay.height);
     let pieceWidth = puzzleImg.width / this.columns;
     let pieceHeight = puzzleImg.height / this.rows;
-    //let pData:number = this.piecesData; //copy so we can modify
-    let pData:number = Math.floor(Math.random() * 0b1111111111111111);
+    let pData:number = this.piecesData; //copy so we can modify
+    //let pData:number = Math.floor(Math.random() * 0b1111111111111111);
     let topData:number = pData << this.columns;
     let leftData:number = pData << 1;
     overlayContext.fillStyle = "#F0F0F0";
@@ -66,7 +80,7 @@ export class PuzzleComponent {
         pData = pData >> 1; //right bit shift
         topData = topData >> 1;
         leftData = leftData >> 1;
-        console.log("pdata = " + pData);
+        //console.log("pdata = " + pData);
       }
     }
   }
