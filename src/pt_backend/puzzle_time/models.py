@@ -22,7 +22,7 @@ class Users(models.Model):
     friends = models.ManyToManyField("self")
 
     def __unicode__(self):
-        return "%d" % self.id
+        return "%d - %s" % (self.id, self.display_name)
     
 class Pictures(models.Model):
     """
@@ -47,7 +47,7 @@ class Pictures(models.Model):
         return json.loads(self.tags)
 
     def __unicode__(self):
-        return "%d %s" % (self.owner.id, self.name)
+        return "%d-%d %s" % (self.id, self.owner.id, self.name)
 
     def savefile(self, binstr):
         flo = StringIO(binstr)
@@ -71,4 +71,4 @@ class Puzzles(models.Model):
     owner = models.ForeignKey('Users')
 
     def __unicode__(self):
-        return "%d %s" % (self.owner.id, self.picture.name)
+        return "%d-%d %s" % (self.id, self.owner.id, self.picture.name)

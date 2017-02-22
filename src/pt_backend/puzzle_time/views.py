@@ -25,7 +25,7 @@ def login(request):
         
         # TODO: Session support
         
-        user_id = request.session.get('user')
+        user_id = request.session.get('user',-1)
         #print request.session.keys()
         #print user_id
         #user_id = 1
@@ -33,7 +33,7 @@ def login(request):
         #user_id = request.GET.get('user')
         
         if user_id == -1:
-            return HttpResponse("No user session exists", status=400)
+            return HttpResponse("No user session exists", status=401)
 
         try:
             user = Users.objects.get(id=user_id)
@@ -43,7 +43,7 @@ def login(request):
         context = {
             'userid' : user.id,
             'puzzles' : [x.id for x in u.puzzles_set.all()],
-            'profilepicture' : user.prof_pic.photo.url,
+            'profilepicture' : user.prof_pic,
             'friends' : [x.id for x in u.friends.all()]
         }
         
@@ -85,9 +85,9 @@ def puzzle(request):
     """
     try:
         # TODO: Change 1 from default into error checking.
-        user = Users.objects.get(id=request.session.get('user',2))
+        user = Users.objects.get(id=request.session.get('user'))
     except Users.DoesNotExist:
-        pass
+        return HttpResponse("No user session exists.", status=401);
 
     if request.method == 'GET':
         puzzle_id = request.GET.get('puzzleid')
@@ -99,10 +99,10 @@ def puzzle(request):
         #print dir(puzzle)
         
         context = {
+            'puzzle' : puzzle,
             'picture' : puzzle.picture.photo.url,
-            'ownerid' : puzzle.owner.id,
-            'puzzleid' : puzzle.id,
-            'progress' : puzzle.progress
+            'userid' : puzzle.owner.id,
+            'puzzleid' : puzzle.id
         }
 
         return render(request, 'puzzle_time/puzzle.html', context)
@@ -127,10 +127,11 @@ def puzzle(request):
         try:
             puzzle = Puzzles.objects.get(id=puzzle_id)
         except Puzzle.DoesNotExist:
-            return HttpResponse("Picture %d does not exist" % picture_id, status=400)
+            return HttpResponse("Puzzle %d does not exist" % puzzle_id, status=400)
         
         # Update progress
         puzzle.progress = request.POST.get('progress')
+        puzzle.save()
         
         # NOTE: May need to add ability to change picture later.
         
@@ -163,7 +164,11 @@ def picture(request):
     GET - Return the picture specified by the passed in id from client.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
-    
+    try: 
+        user = Users.objects.get(id=request.session.get('user',-1))
+    except Users.DoesNotExist:
+        return HttpResponse("No user session exists.", status=401)
+
     if request.method == 'GET':
         
         picture_id = request.GET.get('pictureid')
@@ -173,7 +178,6 @@ def picture(request):
             return HttpResponse("Picture %s does not exist" % picture_id, status=400)
         
         context = {
-            'pictureid' : picture.id,
             'picturelink' : picture.photo.url,
             'picturename' : picture.name,
             'pictureownerid' : picture.owner.id,
@@ -186,9 +190,10 @@ def picture(request):
 
         files = request.FILES.get('file')
         picture = files.read()
-        picture_name = files.name
-        user = Users.objects.get(id=2)
-        new_picture = Pictures.objects.create(name=picture_name, owner=user)
+        picture_name = request.POST.get('picturename', None)
+        if not picture_name:
+            return HttpResponse("Missing `picturename` arg", status=400)
+        new_picture = Pictures.objects.create(name=picture_name, owner=user, tags=[])
         new_picture.savefile(picture)
 
         return HttpResponse("", status=200)
@@ -213,34 +218,34 @@ def user(request):
     Handle requests involving user information.
     
     GET - Return information about user specified within the id passed in.
-        ->  407 if the user doesn't have permission to view passed in id.
     POST - Create new user account
     DELETE - Remove user specified by passed in id value. 
         ->  Will need to handle removing user's assets in pictures/puzzles
     PUT - Update user information with that supplied in the request.
     """
-    try:
-        # TODO: Change 1 from default into error checking.
-        user = Users.objects.get(id=request.session.get('user'))
-    except Users.DoesNotExist:
-        user = None
-
     if request.method == 'GET':
 
+        try:
+            user = Users.objects.get(id=request.session.get('user'))
+        except Users.DoesNotExist:
+            return HttpResponse("No user session exists", status=401)
+
+        # Return info about `userid`
+
         user_id = request.GET.get('userid')
-        
+
         try:
             user = Users.objects.get(id=user_id)
         except Users.DoesNotExist:
-            return HttpResponse("User does not exist",status=400)
+            return HttpResponse("User %s does not exist" % user_id, status=400);
 
         context = {
             'userid' : user.id,
             'friendslist' : [x.id for x in user.friends.all()],
-            'userprofpic' : user.prof_pic.url,
+            'userprofpic' : user.prof_pic,
             'displayname' : user.display_name
         }
-        
+
         return render(request, "puzzle_time/login.html", context)
 
     elif request.method == 'POST':
@@ -256,7 +261,7 @@ def user(request):
                 '',
                 request.POST.get('password'))
             user.save()
-            user = authenticate(request.POST.get('username'),request.POST.get('password'))
+            user = authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
 
             login(request, user)
             #request.session.create()
@@ -274,12 +279,18 @@ def user(request):
         HttpResponse('User already exists')
 
     elif request.method == 'PUT':
+
         
+        try:
+            user = Users.objects.get(id=request.session.get('user'))
+        except Users.DoesNotExist:
+            return HttpResponse("No user session exists", status=401)
+
         putparams = request.body.split('&')
         put = {putparams[x].split('=')[0]:putparams[x].split('=')[1] for x in range(len(putparams))}
 
-        for key in request.POST.keys():
-            print key
+        #for key in request.POST.keys():
+            #print key
         
         #if request.POST.get('profilepicture'):
             #user.prof_pic = 
