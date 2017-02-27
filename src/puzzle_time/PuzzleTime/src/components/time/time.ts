@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { TimerCallCounter } from '../../providers/timer-call-counter';
 
 /*
   Generated class for the Time component.
@@ -12,12 +12,9 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: 'time.html'
 })
 export class TimeComponent {
-  public clock = '';
    
-  constructor() {
-    let betterTimer = Observable.timer(0,1000);
-    betterTimer.subscribe(t=>this.clock = (t > 360 ? "00" : Math.floor((360-t) / 60).toString())
-    + ":" 
-    + (60 - t % 60 == 60 || t > 360 ? "00" : (60 - t % 60 < 10 ? "0" + (60 - t % 60).toString() : (60 - t % 60).toString())));
+  constructor(public callCounter: TimerCallCounter) {
+
+    callCounter.setTimer();
   }
 }

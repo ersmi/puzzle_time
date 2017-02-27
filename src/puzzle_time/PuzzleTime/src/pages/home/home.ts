@@ -4,7 +4,7 @@ import { TimerPage } from '../timer/timer';
 import { ProfilePage } from '../profile/profile';
 import { UploadPage } from '../upload/upload';
 import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
-
+import { TimerCallCounter } from '../../providers/timer-call-counter';
 
 /*
   Generated class for the Home page.
@@ -24,7 +24,7 @@ export class HomePage {
   }
 
   goToTimer(){
-  		this.navCtrl.push(TimerPage);
+  		this.navCtrl.push(TimerPage, {count: 0, isWork: true});
   }
 
   goToProfile(){
