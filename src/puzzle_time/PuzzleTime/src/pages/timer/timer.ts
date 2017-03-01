@@ -5,6 +5,7 @@ import { GalleryComponent } from './../../components/gallery/gallery';
 import { LocalNotifications } from 'ionic-native';
 import { SelectActivityPage } from '../select-activity/select-activity';
 import { TimerCallCounter } from '../../providers/timer-call-counter';
+import { HomePage } from '../home/home';
 
 /*
   Generated class for the Timer page.
@@ -19,11 +20,13 @@ import { TimerCallCounter } from '../../providers/timer-call-counter';
 })
 export class TimerPage {
 
+  public returnToHome;
+
   constructor(public navCtrl: NavController, public callCounter: TimerCallCounter) {
-    callCounter.reset();
     var startTime = new Date().getTime();
     var inc;
     var count = callCounter.getCount(); 
+    this.returnToHome = callCounter.returnToHome;
     if(count % 2 == 0 && count < 7){
       inc = 1560000;
     }else{
@@ -50,7 +53,11 @@ export class TimerPage {
 
   goToActivity(){
     this.callCounter.reset();
-    this.navCtrl.push(SelectActivityPage);
+    if(this.returnToHome){
+      this.navCtrl.push(HomePage);
+    }else{
+      this.navCtrl.push(SelectActivityPage);
+    }
   }
 
   ionViewDidLoad() {

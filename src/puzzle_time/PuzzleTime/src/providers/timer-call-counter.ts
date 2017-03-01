@@ -18,6 +18,8 @@ export class TimerCallCounter {
 
   public isSet = false;
 
+  public returnToHome = false;
+
   public betterTimer;
 
   public timerSubscription;
@@ -38,7 +40,9 @@ export class TimerCallCounter {
 
   setTimer(){
     if(this.isSet == false){
+      this.returnToHome = false;
       this.isSet = true;
+      this.sleepTicks = 0;
       var totalLength;
       if(this.count % 2 == 0 && this.count < 7){
         totalLength = 1560;
@@ -46,10 +50,10 @@ export class TimerCallCounter {
         totalLength = 360;
       }
 
-
-
       this.count = this.count + 1;
-      if(this.count > 9){
+      if(this.count == 9){
+        this.returnToHome = true;
+      }else if(this.count > 9){
           this.count = 0;
       }
       this.betterTimer = Observable.timer(0,1000);
@@ -66,7 +70,7 @@ export class TimerCallCounter {
 
   resume(){
     var resumeTime = new Date().getTime();
-    this.sleepTicks = this.sleepTicks + Math.floor(resumeTime - this.pauseTime)/1000;
+    this.sleepTicks = this.sleepTicks + Math.floor((resumeTime - this.pauseTime)/1000);
   }
 
   reset(){
