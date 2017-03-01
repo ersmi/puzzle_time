@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^puzzle', views.puzzle),
     url(r'^picture', views.picture),
     url(r'^user', views.user),
+    url(r'^search', views.search),
 ]

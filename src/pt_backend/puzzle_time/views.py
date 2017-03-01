@@ -42,9 +42,9 @@ def login(request):
 
         context = {
             'userid' : user.id,
-            'puzzles' : [x.id for x in u.puzzles_set.all()],
+            'puzzles' : [x.id for x in user.puzzles_set.all()],
             'profilepicture' : user.prof_pic,
-            'friends' : [x.id for x in u.friends.all()]
+            'friends' : [x.id for x in user.friends.all()]
         }
         
         return render(request, "puzzle_time/login.html", context)
@@ -59,13 +59,28 @@ def login(request):
 
         DjangoLogin(request, user)
         #request.session.create()
-        #request.session['user'] = user.id
-        #request.session.set_expiry(3600)
-        #request.session.save()
+        request.session['user'] = user.id
+        request.session.set_expiry(3600)
+        request.session.save()
+        
+        try:
+            pt_user = Users.objects.get(id=user.id)
+        except Users.DoesNotExist:
+            return HttpResponse("Django database does not match users", status=400)
+
+        #print user.id
         #print request.session.keys()
         #print request.session.session_key
         #return HttpResponse("", status=200)
-        return render(request, "puzzle_time/login.html", context={})
+
+        context = {
+            'userid' : pt_user.id,
+            'puzzles' : [x.id for x in pt_user.puzzles_set.all()],
+            'profilepicture' : pt_user.prof_pic.url,
+            'friends' : [x.id for x in pt_user.friends.all()]
+        }
+
+        return render(request, "puzzle_time/login.html", context)
 
     else:
         return HttpResponse("%s is not supported." % request.method, status=400)
@@ -83,6 +98,8 @@ def puzzle(request):
         progress passed in with the request.
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
+    #print request.session.keys()
+    #print request.session.get('user')
     try:
         # TODO: Change 1 from default into error checking.
         user = Users.objects.get(id=request.session.get('user'))
@@ -200,6 +217,7 @@ def picture(request):
     
     elif requst.method == 'DELETE':
 
+        # TODO: Ensure picture is users
         picture_id = request.POST.get('pictureid')
         try:
             picture = Pictures.objects.get(id=puzzle_id)
@@ -218,6 +236,7 @@ def user(request):
     Handle requests involving user information.
     
     GET - Return information about user specified within the id passed in.
+        ->  407 if the user doesn't have permission to view passed in id.
     POST - Create new user account
     DELETE - Remove user specified by passed in id value. 
         ->  Will need to handle removing user's assets in pictures/puzzles
@@ -263,20 +282,20 @@ def user(request):
             user.save()
             user = authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
 
-            login(request, user)
+            DjangoLogin(request, user)
             #request.session.create()
-            #request.session['user'] = user.id
-            #request.session.set_expiry(3600)
-            #request.session.save()
+            request.session['user'] = user.id
+            request.session.set_expiry(3600)
+            request.session.save()
             # Initialize app account:
-            pt_user = Users.create(id=user.id, display_name=user.username)
+            pt_user = Users.objects.create(id=user.id, display_name=user.username)
             pt_user.save()
 
             # TODO: return same context as above.
             return HttpResponse('', status=200)
 
 
-        HttpResponse('User already exists')
+        return HttpResponse('User already exists')
 
     elif request.method == 'PUT':
 
@@ -295,6 +314,29 @@ def user(request):
         #if request.POST.get('profilepicture'):
             #user.prof_pic = 
 
-        HttpResponse("<html><b>Not Implemented</b></html>")
+        return HttpResponse("<html><b>Not Implemented</b></html>")
     
     return HttpResponse("<html><b>Not Implemented</b></html>")
+
+def search(request):
+    
+    if request.method == 'GET':
+        
+        username = request.GET.get('username',None)
+        picturename = request.GET.get('picturename',None)
+
+        if username:
+            users = Users.objects.filter(display_name=username)
+            context = {
+                "users" : [[x.id,x.prof_pic.photo.url] for x in users]
+            }
+            return render(request, "./puzzle_time/search.html", context)
+        
+        if picturename:
+            pictures = Pictures.objects.filter(name=picturename)
+            context = {
+                "pictures" : [[x.id, x.photo.url] for x in pictures]
+            }
+            return render(request, "./puzzle_time/search.html", context)
+        
+        return HttpResponse("No search term provided", status=400)
