@@ -76,7 +76,7 @@ def login(request):
         context = {
             'userid' : pt_user.id,
             'puzzles' : [x.id for x in pt_user.puzzles_set.all()],
-            'profilepicture' : pt_user.prof_pic.url,
+            'profilepicture' : pt_user.prof_pic.photo.url,
             'friends' : [x.id for x in pt_user.friends.all()]
         }
 
@@ -288,7 +288,8 @@ def user(request):
             request.session.set_expiry(3600)
             request.session.save()
             # Initialize app account:
-            pt_user = Users.objects.create(id=user.id, display_name=user.username)
+            pic = Pictures.objects.create(name='testpic')
+            pt_user = Users.objects.create(id=user.id, display_name=user.username, prof_pic=pic)
             pt_user.save()
 
             # TODO: return same context as above.

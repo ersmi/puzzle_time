@@ -7,23 +7,6 @@ from StringIO import StringIO
 import json
 
 # Create your models here.
-
-class Users(models.Model):
-    """
-    Table for users' information.
-    
-    Should have fields:
-        prof_pic - (1)url to user's uploaded profile picture.
-        friends  - (*:*) list of users that user is friends with.
-        link - (1) url to picture file
-    """
-    display_name = models.CharField(max_length=200)
-    prof_pic = models.ImageField(upload_to='pics')
-    friends = models.ManyToManyField("self")
-
-    def __unicode__(self):
-        return "%d - %s" % (self.id, self.display_name)
-    
 class Pictures(models.Model):
     """
     Table for pictures.
@@ -35,10 +18,18 @@ class Pictures(models.Model):
         tags    - (*) list of terms to be used to group the picture.
 
     """
-    photo = models.ImageField(upload_to='pics')
+
+#    def defname(self):
+#        return "%d_%danon" % (self.id,self.owner.id)
+
+    photo = models.ImageField(upload_to='pics', default='./pics/defpic.png')
     name = models.CharField(max_length=200)
-    owner = models.ForeignKey('Users')
-    tags = models.CharField(max_length=200)
+    owner = models.ForeignKey('Users',blank=True,null=True)
+    tags = models.CharField(max_length=200, default="[]")
+
+#    def __init__(self):
+#        super(Pictures,self).__init__()
+#        self.fields['name'].default = self.defname()
 
     def settags(self,x):
         self.tags = json.dumps(x)
@@ -54,6 +45,24 @@ class Pictures(models.Model):
         self.photo.save('%s%s.png' % (self.id, self.owner.display_name), File(flo))
         self.save()
 
+
+class Users(models.Model):
+    """
+    Table for users' information.
+    
+    Should have fields:
+        prof_pic - (1)url to user's uploaded profile picture.
+        friends  - (*:*) list of users that user is friends with.
+        link - (1) url to picture file
+    """
+    display_name = models.CharField(max_length=200)
+    prof_pic = models.OneToOneField('Pictures',on_delete=models.CASCADE,blank=True)
+    friends = models.ManyToManyField("self", default=[0])
+
+    def __unicode__(self):
+        return "%d - %s" % (self.id, self.display_name)
+    
+
 class Puzzles(models.Model):
     """
     Table for puzzles. Will be mostly blank since the relationships
@@ -66,7 +75,7 @@ class Puzzles(models.Model):
         picture  - (*:1) picture of the complete puzzle
         owner    - (*:1) owner of the puzzle
     """
-    progress = models.CharField(max_length=200)
+    progress = models.CharField(max_length=200, default='0')
     picture = models.ForeignKey('Pictures',on_delete=models.CASCADE)
     owner = models.ForeignKey('Users')
 
