@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 /*
@@ -20,10 +20,25 @@ export class PuzzleService {
   getFriends(){
     
   }
+  
+  //
 
   getPuzzleSet(){
+    console.log('getPuzzleSet called');
+    //this.http.post("https://pt-b.herokuapp.com/a/users", JSON.stringify({username: guest, password: guest,
+    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})).map(this.extractData));
+    console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})));
+    // want to output text to console, not observable
+    console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map( (res) => { return res.text(); }));
     this.http.get("url");
   }
+  
+  extractData(res: Response) {
+    let body = res.json();
+    return body.data || { };
+  }
+  
+  //
 
   getUserPuzzleSet(){
     

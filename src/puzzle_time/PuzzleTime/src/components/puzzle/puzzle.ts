@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PuzzleService } from '../../providers/puzzle-service';
 
 /*
   Generated class for the Puzzle component.
@@ -18,13 +19,14 @@ export class PuzzleComponent {
   //1 means we have obtained that piece, 0 is a hole.
   piecesData:number = 0b011000011;
 
-  constructor() {
+  constructor(public puzzleService: PuzzleService) {
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
     this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
   }
 
   canvasClicked(evt){
+    this.puzzleService.getPuzzleSet();
     let overlay:HTMLCanvasElement = document.getElementById("gridOverlay") as HTMLCanvasElement;
     let xpos:number = Math.floor(((evt.offsetX) * this.columns)/overlay.width);
     let ypos:number = Math.floor(((evt.offsetY) * this.rows)/overlay.height);
