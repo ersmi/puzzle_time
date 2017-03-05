@@ -30,7 +30,24 @@ export class PuzzleService {
     
     //console.log(JSON.stringify(this.http.get('http://headers.jsontest.com').map((res:Response) => res.json())));
     
+    
+    
+    // print the whole thing 
     this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
+    
+    // just the ip address
+    var testobj = this.http.get('http://ip.jsontest.com/');
+    testobj.subscribe(res => console.log((res.json()).ip));
+
+    // trying to put stuff in this.data
+    testobj.subscribe(res => this.data = res.json());
+    //console.log(this.data.ip);
+    
+    
+    
+    //this.http.post('https://pt-b.herokuapp.com/a/login', JSON.stringify({username: "asd", password: "asd"})).subscribe(res => console.log(JSON.stringify(res)));
+    
+    this.http.get('https://pt-b.herokuapp.com/d/session').subscribe(res => console.log(JSON.stringify(res)));
     
     //this.http.post("https://pt-b.herokuapp.com/a/users", JSON.stringify({username: guest, password: guest,
     //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})).map(this.extractData));
