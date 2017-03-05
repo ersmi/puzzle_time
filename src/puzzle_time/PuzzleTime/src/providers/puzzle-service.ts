@@ -25,17 +25,25 @@ export class PuzzleService {
 
   getPuzzleSet(){
     console.log('getPuzzleSet called');
+    
+    //console.log(JSON.stringify(this.http.get('https://conduit.productionready.io/api/profiles/eric').map((res:Response) => res.json())));
+    
+    //console.log(JSON.stringify(this.http.get('http://headers.jsontest.com').map((res:Response) => res.json())));
+    
+    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
+    
     //this.http.post("https://pt-b.herokuapp.com/a/users", JSON.stringify({username: guest, password: guest,
     //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})).map(this.extractData));
-    console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})));
+    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})));
     // want to output text to console, not observable
-    console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map( (res) => { return res.text(); }));
-    this.http.get("url");
+    //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map( (res) => { return res.text(); }));
+    //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map(this.extractData));
+    //this.http.get("url");
   }
   
   extractData(res: Response) {
-    let body = res.json();
-    return body.data || { };
+    let body = res.text();
+    return body;
   }
   
   //
