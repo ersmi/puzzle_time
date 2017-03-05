@@ -1,14 +1,26 @@
 <html>
 Login debug:
-<form action="http://localhost:8000/a/login" method="post">
+<form action="https://pt-b.herokuapp.com/a/login" method="post">
     <input name="username" id="username"/>
     <input name="password" id="password"/>
     <input type="submit" value="login"/>
 </form>
 Signup debug:
-<form action="http://localhost:8000/a/user" method="post">
+<form action="https://pt-b.herokuapp.com/a/user" method="post">
     <input name="username" id="username"/>
     <input name="password" id="password"/>
     <input type="submit" value="signup"/>
+</form>
+Picture POST debug:
+<form action="https://pt-b.herokuapp.com/a/picture" method="post">
+    <input name="picturename" id="picturename" value="Picture Name"></input>
+    <input id='file' name="file" value="File contents(binary)"></input>
+    <input id='tags' name="tags" value="File tags (json list)"></input>
+    <input type="submit" value="Create Picture"/>
+</form>
+Puzzle POST debug:
+<form action="http://localhost:8000/a/puzzle" method="post">
+    <input name="pictureid" id="pictureid" value="pictureid(int)"></input>
+    <input type="submit" value="Create Puzzle"/>
 </form>
 </html>

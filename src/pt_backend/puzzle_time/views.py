@@ -43,7 +43,7 @@ def login(request):
         context = {
             'userid' : user.id,
             'puzzles' : [x.id for x in user.puzzles_set.all()],
-            'profilepicture' : user.prof_pic,
+            'profilepicture' : user.prof_pic.photo.url,
             'friends' : [x.id for x in user.friends.all()]
         }
         
@@ -118,8 +118,9 @@ def puzzle(request):
         context = {
             'puzzle' : puzzle,
             'picture' : puzzle.picture.photo.url,
-            'userid' : puzzle.owner.id,
-            'puzzleid' : puzzle.id
+            'ownerid' : puzzle.owner.id,
+            'puzzleid' : puzzle.id,
+            'progress' : puzzle.progress,
         }
 
         return render(request, 'puzzle_time/puzzle.html', context)
@@ -136,7 +137,15 @@ def puzzle(request):
         new_puzzle = Puzzles.objects.create(picture=picture, owner=user)
         new_puzzle.save()
         
-        return HttpResponse("", status=200)
+        context = {
+            'puzzle' : new_puzzle,
+            'picture' : new_puzzle.picture.photo.url,
+            'ownerid' : new_puzzle.owner.id,
+            'puzzleid' : new_puzzle.id,
+            'progress' : new_puzzle.progress
+        }
+
+        return render(request, 'puzzle_time/puzzle.html', context)
 
     elif request.method == 'PUT':
         
@@ -195,6 +204,7 @@ def picture(request):
             return HttpResponse("Picture %s does not exist" % picture_id, status=400)
         
         context = {
+            'pictureid' : picture.id,
             'picturelink' : picture.photo.url,
             'picturename' : picture.name,
             'pictureownerid' : picture.owner.id,
@@ -205,15 +215,33 @@ def picture(request):
 
     elif request.method == 'POST':
 
+        
         files = request.FILES.get('file')
-        picture = files.read()
+        if files == None:
+            files = request.POST.get('file')
+        #picture = files.read()
+        if files == None:
+            return HttpResponse("Could not read file", status=400)
         picture_name = request.POST.get('picturename', None)
         if not picture_name:
             return HttpResponse("Missing `picturename` arg", status=400)
         new_picture = Pictures.objects.create(name=picture_name, owner=user, tags=[])
-        new_picture.savefile(picture)
+        new_picture.savefile(files)
+        tags = request.POST.get('picturetags',[])
+        try:
+            new_picture.settags(tags)
+        except TypeError:
+            return HttpResponse("Tags are not valid json", status=400)
 
-        return HttpResponse("", status=200)
+        context = {
+            'pictureid' : new_picture.id,
+            'picturelink' : new_picture.photo.url,
+            'picturename' : new_picture.name,
+            'pictureownerid' : new_picture.owner.id,
+            'picturetags' : new_picture.gettags(),
+        }
+        
+        return render(request, "puzzle_time/picture.html", context)
     
     elif requst.method == 'DELETE':
 
@@ -291,6 +319,8 @@ def user(request):
             pic = Pictures.objects.create(name='testpic')
             pt_user = Users.objects.create(id=user.id, display_name=user.username, prof_pic=pic)
             pt_user.save()
+            pic.owner = pt_user
+            pic.save()
 
             # TODO: return same context as above.
             return HttpResponse('', status=200)
