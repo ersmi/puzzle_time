@@ -56,7 +56,7 @@ class Users(models.Model):
         link - (1) url to picture file
     """
     display_name = models.CharField(max_length=200)
-    prof_pic = models.OneToOneField('Pictures',on_delete=models.CASCADE,blank=True)
+    prof_pic = models.OneToOneField('Pictures',blank=True)
     friends = models.ManyToManyField("self", default=[0])
 
     def __unicode__(self):
@@ -76,7 +76,7 @@ class Puzzles(models.Model):
         owner    - (*:1) owner of the puzzle
     """
     progress = models.CharField(max_length=200, default='0')
-    picture = models.ForeignKey('Pictures',on_delete=models.CASCADE)
+    picture = models.ForeignKey('Pictures')
     owner = models.ForeignKey('Users')
 
     def __unicode__(self):

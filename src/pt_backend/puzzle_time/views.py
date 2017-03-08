@@ -355,19 +355,36 @@ def search(request):
         
         username = request.GET.get('username',None)
         picturename = request.GET.get('picturename',None)
+        userspictures = request.GET.get('userspictures',None)
 
         if username:
             users = Users.objects.filter(display_name=username)
             context = {
                 "users" : [[x.id,x.prof_pic.photo.url] for x in users]
             }
-            return render(request, "./puzzle_time/search.html", context)
+            return render(request, "./puzzle_time/usersearch.html", context)
         
         if picturename:
             pictures = Pictures.objects.filter(name=picturename)
             context = {
                 "pictures" : [[x.id, x.photo.url] for x in pictures]
             }
-            return render(request, "./puzzle_time/search.html", context)
-        
+            return render(request, "./puzzle_time/picnamesearch.html", context)
+
+        if userspictures:
+            pictures = Pictures.objects.all()
+            users = Users.objects.filter(display_name=userspictures)
+            theirpictures = []
+            for x in users:
+                picturelist = []
+                for y in pictures:
+                    if (x.id == y.owner.id):
+                        picturelist.append(y.photo.url)
+                if (len(picturelist) != 0):
+                    theirpictures+=picturelist
+
+            context = {
+                "userspictures" : theirpictures
+            }
+            return render(request, "./puzzle_time/userspicssearch.html", context)
         return HttpResponse("No search term provided", status=400)
