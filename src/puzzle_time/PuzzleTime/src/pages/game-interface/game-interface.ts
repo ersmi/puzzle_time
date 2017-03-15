@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GameService } from '../../providers/game-service';
-import { Phaser } from '../../phaser.js';
+import { Phaser } from '../../assets/phaser.js';
 
 /*
   Generated class for the GameInterface page.
@@ -19,7 +19,7 @@ export class GameInterfacePage {
   constructor(public navCtrl: NavController, public gameService: GameService) {}
 
   ionViewDidLoad() {
-    console.log('Hello GameInterfacePage Page');
+    console.log('Hello GameInterfacePage Pages');
   }
 
   //todo:
