@@ -20,13 +20,14 @@ export class PuzzleComponent {
   piecesData:number = 0b011000011;
 
   constructor(public puzzleService: PuzzleService) {
+    this.puzzleService.getPicture(); //Delete this 
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
     this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
   }
 
   canvasClicked(evt){
-    this.puzzleService.getPuzzleSet();
+    //this.puzzleService.getPuzzleSet();
     let overlay:HTMLCanvasElement = document.getElementById("gridOverlay") as HTMLCanvasElement;
     let xpos:number = Math.floor(((evt.offsetX) * this.columns)/overlay.width);
     let ypos:number = Math.floor(((evt.offsetY) * this.rows)/overlay.height);
