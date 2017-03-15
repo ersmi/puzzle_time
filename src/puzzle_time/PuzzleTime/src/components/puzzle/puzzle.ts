@@ -27,7 +27,9 @@ export class PuzzleComponent {
   }
 
   canvasClicked(evt){
-    //this.puzzleService.getPuzzleSet();
+  
+    this.puzzleService.getPuzzleSet();
+    
     let overlay:HTMLCanvasElement = document.getElementById("gridOverlay") as HTMLCanvasElement;
     let xpos:number = Math.floor(((evt.offsetX) * this.columns)/overlay.width);
     let ypos:number = Math.floor(((evt.offsetY) * this.rows)/overlay.height);

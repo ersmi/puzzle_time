@@ -31,18 +31,25 @@ export class PuzzleService {
   getPuzzleSet(){
     console.log('getPuzzleSet called');
     this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
-    //this.http.post("https://pt-b.herokuapp.com/a/users", JSON.stringify({username: guest, password: guest,
-    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})).map(this.extractData));
-    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})));
-    // want to output text to console, not observable
-    //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map( (res) => { return res.text(); }));
+    
+    // print the whole thing 
+    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
+    
+    // just the ip address
+    var testobj = this.http.get('http://ip.jsontest.com/');
+    testobj.subscribe(res => console.log((res.json()).ip));
+
+    // trying to put stuff in this.data
+    testobj.subscribe(res => this.data = res.json());
+    //console.log(this.data.ip);
+    
+    //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map(this.extractData));
     //this.http.get("url");
   }
   
   extractData(res: Response) {
     let body = res.text();
-    console.log(body);
-    return body || {};
+    return body;
   }
   
   //
