@@ -18,6 +18,7 @@ import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
 import { GalleryComponent } from '../components/gallery/gallery';
 import { PuzzleComponent } from '../components/puzzle/puzzle';
 import { TimerCallCounter } from '../providers/timer-call-counter';
+import { PuzzleService } from '../providers/puzzle-service';
 import { GameService } from '../providers/game-service';
 
 @NgModule({
@@ -65,6 +66,7 @@ import { GameService } from '../providers/game-service';
   ],
   providers: [
     TimerCallCounter,
+    PuzzleService,
     GameService
   ]
 })
