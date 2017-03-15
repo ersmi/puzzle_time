@@ -18,6 +18,7 @@ import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
 import { GalleryComponent } from '../components/gallery/gallery';
 import { PuzzleComponent } from '../components/puzzle/puzzle';
 import { TimerCallCounter } from '../providers/timer-call-counter';
+import { GameService } from '../providers/game-service';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { TimerCallCounter } from '../providers/timer-call-counter';
     GalleryComponent
   ],
   providers: [
-    TimerCallCounter
+    TimerCallCounter,
+    GameService
   ]
 })
 export class AppModule {}

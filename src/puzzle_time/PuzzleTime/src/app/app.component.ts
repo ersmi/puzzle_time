@@ -8,6 +8,7 @@ import { UploadPage } from '../pages/upload/upload';
 import { ProfilePage } from '../pages/profile/profile';
 import { FriendListPage } from '../pages/friend-list/friend-list';
 import { SubmitPage } from '../pages/submit/submit';
+import { GameInterfacePage } from '../pages/game-interface/game-interface';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +30,8 @@ export class MyApp {
       { title: 'Upload', component: UploadPage },
       { title: 'Profile', component: ProfilePage},
       { title: 'Friend List', component: FriendListPage},
-      { title: 'Submit', component: SubmitPage}
+      { title: 'Submit', component: SubmitPage},
+      { title: 'Game Test', component: GameInterfacePage}
     ];
 
   }
