@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import { BasePhaserGame } from './base-phaser-game';
+
+@Injectable()
+export class _______PhaserGame extends BasePhaserGame{
+    constructor(){ // this constructor isnt complete yet.
+        super();
+    }
+
+    preload(){
+        super.preload();
+    }
+
+    create(){
+        super.create();
+    }
+
+    update(){
+        super.update();
+    }
+
+
+}
