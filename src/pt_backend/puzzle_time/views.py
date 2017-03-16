@@ -25,7 +25,7 @@ def login(request):
         
         # TODO: Session support
         
-        user_id = request.session.get('user',-1)
+        user_id = request.session.get('user')
         #print request.session.keys()
         #print user_id
         #user_id = 1
@@ -116,7 +116,6 @@ def puzzle(request):
         #print dir(puzzle)
         
         context = {
-            'puzzle' : puzzle,
             'picture' : puzzle.picture.photo.url,
             'ownerid' : puzzle.owner.id,
             'puzzleid' : puzzle.id,
@@ -148,24 +147,32 @@ def puzzle(request):
         return render(request, 'puzzle_time/puzzle.html', context)
 
     elif request.method == 'PUT':
-        
-        puzzle_id = request.POST.get('puzzleid')
+        DATA = request.read().split("&")
+        DATA = [x.split("=") for x in DATA]
+        puzzle_id = DATA[1][1]
+        #puzzle_id = request.POST.get('puzzleid')
         try:
             puzzle = Puzzles.objects.get(id=puzzle_id)
-        except Puzzle.DoesNotExist:
+        except Puzzles.DoesNotExist:
             return HttpResponse("Puzzle %d does not exist" % puzzle_id, status=400)
         
         # Update progress
-        puzzle.progress = request.POST.get('progress')
+        puzzle.progress = DATA[0][1]
         puzzle.save()
         
         # NOTE: May need to add ability to change picture later.
-        
-        return HttpResponse("", status=200)
+        context = {
+            'picture' : puzzle.picture.photo.url,
+            'ownerid' : puzzle.owner.id,
+            'puzzleid' : puzzle.id,
+            'progress' : puzzle.progress,
+        }
+
+        return render(request, 'puzzle_time/puzzle.html', context)
 
     elif request.method == 'DELETE':
-        
-        puzzle_id = request.POST.get('puzzleid')
+        puzzle_id = request.read().split("=")[1]
+        #puzzle_id = request.POST.get('puzzleid')
         try:
             puzzle = Puzzles.objects.get(id=puzzle_id)
         except Puzzles.DoesNotExist:
@@ -191,7 +198,7 @@ def picture(request):
     DELETE - Remove the puzzle specified by the passed in id from client.
     """
     try: 
-        user = Users.objects.get(id=request.session.get('user',-1))
+        user = Users.objects.get(id=request.session.get('user'))
     except Users.DoesNotExist:
         return HttpResponse("No user session exists.", status=401)
 
@@ -243,16 +250,30 @@ def picture(request):
         
         return render(request, "puzzle_time/picture.html", context)
     
-    elif requst.method == 'DELETE':
+    elif request.method == 'DELETE':
 
-        # TODO: Ensure picture is users
-        picture_id = request.POST.get('pictureid')
+        picture_id = request.read().split("=")[1]      
+        #picture_id = request.POST.get('pictureid')
         try:
-            picture = Pictures.objects.get(id=puzzle_id)
+            picture = Pictures.objects.get(id=picture_id)
         except Pictures.DoesNotExist:
             return HttpResponse("Picture %s does not exist" % picture_id, status=400)
 
-        picture.delete()
+        if (picture.owner == user):
+            allpuzzles = list(Puzzles.objects.all().values())
+            for x in allpuzzles:
+                print x.get('picture_id')
+                print picture_id
+                if (int(x.get('picture_id')) == int(picture_id)):
+                    print "Made it here"
+                    puzzletochange = Puzzles.objects.get(id=x.get('id'))
+                    puzzletochange.picture = Pictures.objects.get(id=1)
+                    puzzletochange.save()
+                    
+
+            picture.delete()
+        else:
+            return HttpResponse("This is not your picture", status=401)
 
         return HttpResponse("", status=200)
 
@@ -329,7 +350,7 @@ def user(request):
         return HttpResponse('User already exists')
 
     elif request.method == 'PUT':
-
+        
         
         try:
             user = Users.objects.get(id=request.session.get('user'))
@@ -338,15 +359,43 @@ def user(request):
 
         putparams = request.body.split('&')
         put = {putparams[x].split('=')[0]:putparams[x].split('=')[1] for x in range(len(putparams))}
+        username = put.get('username',None)
+        prof_pic_id = put.get('prof_pic',None)
+        friends = put.get('friends',None)
+        context = {}
 
-        #for key in request.POST.keys():
-            #print key
-        
-        #if request.POST.get('profilepicture'):
-            #user.prof_pic = 
+        if username:
+            user.display_name = username
+            user.save()
+            context['username'] = username
 
-        return HttpResponse("<html><b>Not Implemented</b></html>")
-    
+        if prof_pic_id:
+            try:
+                newprofpic = Pictures.objects.get(id=prof_pic_id)
+            except Pictures.DoesNotExist:
+                return HttpResponse("Picture %s does not exist" % prof_pic_id, status=401)
+            if (user == newprofpic.owner):
+                user.prof_pic = newprofpic
+                user.save()
+                context['prof_pic_id']=newprofpic.photo.url
+            else:
+                return HttpResponse("This is not your picture", status=401)
+
+        if friends:
+            friends_to_add = [int(putparams[x].split('friends=')[1]) for x in range(len(putparams)) if "friends=" in putparams[x]]
+            for x in friends_to_add:
+                try:
+                    newfriend = Users.objects.get(id=x)
+                except Users.DoesNotExist:
+                    return HttpResponse("User %s does not exist" % x, status=401)
+                user.friends.add(newfriend)
+                user.save()
+            context['friends']=friends_to_add
+
+        if (username or prof_pic_id or friends):
+            return render(request, "./puzzle_time/userput.html", context)
+        else:
+            return HttpResponse("no put parameters provided",status=402)
     return HttpResponse("<html><b>Not Implemented</b></html>")
 
 def search(request):

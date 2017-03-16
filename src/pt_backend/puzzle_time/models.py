@@ -24,7 +24,7 @@ class Pictures(models.Model):
 
     photo = models.ImageField(upload_to='pics', default='./pics/defpic.png')
     name = models.CharField(max_length=200)
-    owner = models.ForeignKey('Users',blank=True,null=True)
+    owner = models.ForeignKey('Users',blank=True,null=True,on_delete=models.SET_NULL)
     tags = models.CharField(max_length=200, default="[]")
 
 #    def __init__(self):
@@ -56,7 +56,7 @@ class Users(models.Model):
         link - (1) url to picture file
     """
     display_name = models.CharField(max_length=200)
-    prof_pic = models.OneToOneField('Pictures',blank=True)
+    prof_pic = models.OneToOneField('Pictures',blank=True,null=True,on_delete=models.SET_NULL)
     friends = models.ManyToManyField("self", default=[0])
 
     def __unicode__(self):
@@ -76,8 +76,8 @@ class Puzzles(models.Model):
         owner    - (*:1) owner of the puzzle
     """
     progress = models.CharField(max_length=200, default='0')
-    picture = models.ForeignKey('Pictures')
-    owner = models.ForeignKey('Users')
+    picture = models.ForeignKey('Pictures', null=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey('Users', null=True, on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return "%d-%d %s" % (self.id, self.owner.id, self.picture.name)
