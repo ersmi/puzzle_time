@@ -23,7 +23,7 @@ import { Authenticator } from '../../providers/authenticator';
 export class HomePage {
   constructor(public navCtrl: NavController, public auth: Authenticator) {
   	this.navCtrl = navCtrl;
-    if(this.auth.isAuthenticated == false){
+    if(this.auth.userToken === ''){
       console.log("Not authenticated.");
       this.navCtrl.push(LoginPage);
     }else{

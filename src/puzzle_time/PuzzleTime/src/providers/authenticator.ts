@@ -24,8 +24,9 @@ export class Authenticator {
     body.append('username', username);
     body.append('password', password);
     try{
-      this.http.post('https://pt-b.herokuapp.com/a/login', body).subscribe(res => this.userToken = JSON.parse(JSON.stringify(res))._body);
-      this.isAuthenticated = true;
+      var observable = this.http.post('https://pt-b.herokuapp.com/a/login', body);
+      observable.subscribe(res => this.userToken = JSON.parse(JSON.stringify(res))._body);
+      return observable;
     } catch (e){
       console.log("Encountered error:" + e.message);
     }

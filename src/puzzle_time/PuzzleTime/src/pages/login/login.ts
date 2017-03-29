@@ -31,11 +31,11 @@ export class LoginPage {
   	var password = this.password;
   	console.log(this.user);
   	console.log(this.password);
-  	this.auth.authenticate(username, password);
-  	if(this.auth.isAuthenticated == true){
-  		this.navCtrl.push(HomePage);
-  	}else{
+  	var obs = this.auth.authenticate(username, password);
+  	obs.subscribe(res => this.pushHome());
+  }
 
-  	}
+  pushHome(){
+  	this.navCtrl.push(HomePage);
   }
 }
