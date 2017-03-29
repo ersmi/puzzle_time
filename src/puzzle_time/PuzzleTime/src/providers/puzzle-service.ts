@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Authenticator } from '../providers/authenticator';
 import 'rxjs/add/operator/map';
 
 /*
@@ -18,7 +19,9 @@ export class PuzzleService {
 
   public message = 'Hello World.';
 
-  constructor(public http: Http) {
+  public userToken = '';
+
+  constructor(public auth: Authenticator, public http: Http) {
     console.log('Hello PuzzleService Provider');
   }
 
@@ -80,27 +83,17 @@ export class PuzzleService {
     });*/
   }
 
-  getPicture(){
+  getPicture(pictureid){
     this.doFakeAuthenticationStuff();
     setTimeout(() => {
-        this.actuallyGetPicture();
+        this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
     }, 10000);
   }
 
-  actuallyGetPicture(){
-    this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=11').subscribe(res => console.log(JSON.stringify(res)));
-  }
+
 
   doFakeAuthenticationStuff(){
-    var body = new FormData();
-    body.append('username', 'David');
-    body.append('password', 'Krall');
-    try{
-      this.http.post('https://pt-b.herokuapp.com/a/login', body)
-      .subscribe(res => console.log(JSON.stringify(res)));
-    } catch (e){
-      console.log("Encountered error:" + e.message);
-    }
+    this.auth.authenticate('David','Krall');
   }
 
 }

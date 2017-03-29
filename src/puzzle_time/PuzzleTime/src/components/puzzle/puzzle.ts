@@ -20,7 +20,7 @@ export class PuzzleComponent {
   piecesData:number = 0b011000011;
 
   constructor(public puzzleService: PuzzleService) {
-    this.puzzleService.getPicture(); //Delete this 
+    this.puzzleService.getPicture(11); //Delete this 
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
     this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
