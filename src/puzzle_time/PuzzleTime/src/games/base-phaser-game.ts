@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Phaser } from '../phaser.js';
+//import { Phaser } from '../phaser.js';
 
 @Injectable()
 export class BasePhaserGame{

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GameService } from '../../providers/game-service';
-import { Phaser } from '../../assets/phaser.js';
+import * as Phaser from 'phaser-ce';
 
 /*
   Generated class for the GameInterface page.

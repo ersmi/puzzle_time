@@ -20,6 +20,9 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
 import { TimerCallCounter } from '../providers/timer-call-counter';
 import { PuzzleService } from '../providers/puzzle-service';
 import { GameService } from '../providers/game-service';
+/*import * as PIXI from 'pixi';
+import * as p2 from 'p2';
+import * as Phaser from 'phaser-ce';*/
 
 @NgModule({
   declarations: [
