@@ -26,24 +26,29 @@ export class PuzzleService {
   }
 
   getFriends(){
-    
+      var observable = this.http.get('https://pt-b.herokuapp.com/a/login');
+      observable.subscribe(res => console.log(JSON.parse(JSON.stringify(res))._body));
+      //this.userName = username;
+      //return observable;
   }
   
   //
 
   getPuzzleSet(){
+    this.getFriends();
     console.log('getPuzzleSet called');
-    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
+    
+    //this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
     
     // print the whole thing 
-    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
+    //this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
     
     // just the ip address
-    var testobj = this.http.get('http://ip.jsontest.com/');
-    testobj.subscribe(res => console.log((res.json()).ip));
+    //var testobj = this.http.get('http://ip.jsontest.com/');
+    //testobj.subscribe(res => console.log((res.json()).ip));
 
     // trying to put stuff in this.data
-    testobj.subscribe(res => this.data = res.json());
+    //testobj.subscribe(res => this.data = res.json());
     //console.log(this.data.ip);
     
     //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map(this.extractData));

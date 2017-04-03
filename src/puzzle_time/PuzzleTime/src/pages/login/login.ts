@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Authenticator } from '../../providers/authenticator';
-import { HomePage } from '../home/home';
 
 /*
   Generated class for the Login page.
@@ -36,6 +35,8 @@ export class LoginPage {
   }
 
   pushHome(){
-  	this.navCtrl.push(HomePage);
+    if(this.auth.userToken !== ''){
+      this.navCtrl.pop();
+    }
   }
 }
