@@ -20,9 +20,7 @@ import { PuzzleComponent } from '../components/puzzle/puzzle';
 import { TimerCallCounter } from '../providers/timer-call-counter';
 import { PuzzleService } from '../providers/puzzle-service';
 import { GameService } from '../providers/game-service';
-/*import * as PIXI from 'pixi';
-import * as p2 from 'p2';
-import * as Phaser from 'phaser-ce';*/
+import { Authenticator } from '../providers/authenticator';
 
 @NgModule({
   declarations: [
@@ -70,7 +68,8 @@ import * as Phaser from 'phaser-ce';*/
   providers: [
     TimerCallCounter,
     PuzzleService,
-    GameService
+    GameService,
+    Authenticator
   ]
 })
 export class AppModule {}

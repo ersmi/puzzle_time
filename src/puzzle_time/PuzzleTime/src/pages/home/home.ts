@@ -3,8 +3,10 @@ import { NavController } from 'ionic-angular';
 import { TimerPage } from '../timer/timer';
 import { ProfilePage } from '../profile/profile';
 import { UploadPage } from '../upload/upload';
+import { LoginPage } from '../login/login';
 import { GalleryCardComponent } from './../../components/gallery-card/gallery-card';
 import { TimerCallCounter } from '../../providers/timer-call-counter';
+import { Authenticator } from '../../providers/authenticator';
 
 /*
   Generated class for the Home page.
@@ -19,8 +21,14 @@ import { TimerCallCounter } from '../../providers/timer-call-counter';
 })
 
 export class HomePage {
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public auth: Authenticator) {
   	this.navCtrl = navCtrl;
+    if(this.auth.userToken === ''){
+      console.log("Not authenticated.");
+      this.navCtrl.push(LoginPage);
+    }else{
+      console.log("Authenticated");
+    }
   }
 
   goToTimer(){

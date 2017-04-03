@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Authenticator } from '../providers/authenticator';
 import 'rxjs/add/operator/map';
 
 /*
@@ -13,7 +14,14 @@ export class PuzzleService {
   public puzzleSet:JSON;
   public data:JSON;
   public friendPuzzles:JSON;
-  constructor(public http: Http) {
+
+  public result;
+
+  public message = 'Hello World.';
+
+  public userToken = '';
+
+  constructor(public auth: Authenticator, public http: Http) {
     console.log('Hello PuzzleService Provider');
   }
 
@@ -25,12 +33,7 @@ export class PuzzleService {
 
   getPuzzleSet(){
     console.log('getPuzzleSet called');
-    
-    //console.log(JSON.stringify(this.http.get('https://conduit.productionready.io/api/profiles/eric').map((res:Response) => res.json())));
-    
-    //console.log(JSON.stringify(this.http.get('http://headers.jsontest.com').map((res:Response) => res.json())));
-    
-    
+    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
     
     // print the whole thing 
     this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
@@ -43,17 +46,6 @@ export class PuzzleService {
     testobj.subscribe(res => this.data = res.json());
     //console.log(this.data.ip);
     
-    
-    
-    //this.http.post('https://pt-b.herokuapp.com/a/login', JSON.stringify({username: "asd", password: "asd"})).subscribe(res => console.log(JSON.stringify(res)));
-    
-    this.http.get('https://pt-b.herokuapp.com/d/session').subscribe(res => console.log(JSON.stringify(res)));
-    
-    //this.http.post("https://pt-b.herokuapp.com/a/users", JSON.stringify({username: guest, password: guest,
-    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})).map(this.extractData));
-    //console.log(this.http.post("https://pt-b.herokuapp.com/a/login", JSON.stringify({username: "asd", password: "asd"})));
-    // want to output text to console, not observable
-    //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map( (res) => { return res.text(); }));
     //console.log(this.http.get("https://pt-b.herokuapp.com/a/login").map(this.extractData));
     //this.http.get("url");
   }
@@ -91,8 +83,17 @@ export class PuzzleService {
     });*/
   }
 
-  getPicture(){
+  getPicture(pictureid){
+    this.doFakeAuthenticationStuff();
+    setTimeout(() => {
+        this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
+    }, 10000);
+  }
 
+
+
+  doFakeAuthenticationStuff(){
+    this.auth.authenticate('David','Krall');
   }
 
 }
