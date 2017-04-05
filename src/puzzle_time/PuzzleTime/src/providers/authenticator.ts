@@ -13,6 +13,8 @@ export class Authenticator {
 
   public userToken = '';
 
+  public userName = '';
+
   public isAuthenticated = false;
 
   constructor(public http: Http) {
@@ -26,6 +28,7 @@ export class Authenticator {
     try{
       var observable = this.http.post('https://pt-b.herokuapp.com/a/login', body);
       observable.subscribe(res => this.userToken = JSON.parse(JSON.stringify(res))._body);
+      this.userName = username;
       return observable;
     } catch (e){
       console.log("Encountered error:" + e.message);

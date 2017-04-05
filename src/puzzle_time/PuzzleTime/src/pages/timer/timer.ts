@@ -5,7 +5,6 @@ import { GalleryComponent } from './../../components/gallery/gallery';
 import { LocalNotifications } from 'ionic-native';
 import { SelectActivityPage } from '../select-activity/select-activity';
 import { TimerCallCounter } from '../../providers/timer-call-counter';
-import { HomePage } from '../home/home';
 
 /*
   Generated class for the Timer page.
@@ -54,7 +53,7 @@ export class TimerPage {
   goToActivity(){
     this.callCounter.reset();
     if(this.returnToHome){
-      this.navCtrl.push(HomePage);
+      this.navCtrl.popToRoot();
     }else{
       this.navCtrl.push(SelectActivityPage);
     }
