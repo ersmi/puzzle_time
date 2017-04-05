@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TimerPage } from '../timer/timer';
 import { TimerCallCounter } from '../../providers/timer-call-counter';
+import { GameService } from '../../providers/game-service';
+import { GameInterfacePage } from '../game-interface/game-interface';
 
 /*
   Generated class for the SelectActivity page.
@@ -14,8 +16,10 @@ import { TimerCallCounter } from '../../providers/timer-call-counter';
   templateUrl: 'select-activity.html'
 })
 export class SelectActivityPage {
-
-  constructor(public navCtrl: NavController, public callCounter: TimerCallCounter) {}
+  private gameList:Array<string>;
+  constructor(public navCtrl: NavController, public callCounter: TimerCallCounter, public gameService:GameService) {
+    this.gameList = gameService.getGameList();
+  }
 
   ionViewDidLoad() {
     console.log('Hello SelectActivityPage Page');
@@ -24,7 +28,8 @@ export class SelectActivityPage {
   getPiece(){
   		this.navCtrl.push(TimerPage);
   }
-  playGame(){
-  		this.navCtrl.push(TimerPage);
+  startGame(id:string){
+    this.gameService.setCurrentGame(id);
+  	this.navCtrl.push(GameInterfacePage);
   }
 }

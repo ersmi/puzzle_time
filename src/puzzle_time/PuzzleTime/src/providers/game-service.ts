@@ -10,12 +10,12 @@ import { AnimalPhaserGame } from '../games/animal-phaser-game';
 */
 @Injectable()
 export class GameService {
-
+  public currentGameId:string;
   constructor() {
   }
 
   getGameList(){
-
+    return ["animal"];
   }
 
   getGame(id:String){
@@ -23,6 +23,10 @@ export class GameService {
       case "animal":
         return AnimalPhaserGame;
     }
+  }
+
+  setCurrentGame(id:string){
+    this.currentGameId = id;
   }
 
 }

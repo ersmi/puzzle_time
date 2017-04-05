@@ -33,7 +33,7 @@ export class GameInterfacePage {
   ionViewDidEnter(){
     let holder = document.getElementById("holder");
     let slot = document.getElementById("phaserSlot");
-    let game = new (this.gameService.getGame("animal"))();
+    let game = new (this.gameService.getGame(this.gameService.currentGameId))();
     game.setPhaser(new Phaser.Game(
       //480, 720,
       holder.offsetWidth, holder.offsetHeight - (slot.offsetParent as HTMLElement).offsetTop,         // width x height
