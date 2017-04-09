@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { PuzzleService } from '../../providers/puzzle-service';
+import { GameService } from '../../providers/game-service';
+
 
 /*
   Generated class for the GameReward page.
@@ -13,7 +16,9 @@ import { NavController } from 'ionic-angular';
 })
 export class GameRewardPage {
 
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, public puzzleService: PuzzleService, public gameService: GameService) {
+    this.puzzleService.getUserPuzzleSet();
+  }
 
   ionViewDidLoad() {
     console.log('Hello GameRewardPage Page');
