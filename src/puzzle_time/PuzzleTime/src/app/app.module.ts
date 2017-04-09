@@ -23,6 +23,7 @@ import { GameService } from '../providers/game-service';
 import { Authenticator } from '../providers/authenticator';
 import { UserService } from '../providers/user-service';
 import { AddFriendsPage } from '../pages/add-friends/add-friends';
+import { GameRewardPage } from '../pages/game-reward/game-reward';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AddFriendsPage } from '../pages/add-friends/add-friends';
     ChoosePuzzlePage,
     SubmitPage,
     AddFriendsPage,
+    GameRewardPage,
     UserInfoComponent,
     TimeComponent,
     GalleryCardComponent,
@@ -62,6 +64,7 @@ import { AddFriendsPage } from '../pages/add-friends/add-friends';
     SelectActivityPage,
     ChoosePuzzlePage,
     AddFriendsPage,
+    GameRewardPage,
     SubmitPage,
     UserInfoComponent,
     TimeComponent,

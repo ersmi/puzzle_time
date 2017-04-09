@@ -66,6 +66,8 @@ export class AnimalPhaserGame extends BasePhaserGame{
                     if(this.userSequence[i] != this.currentSequence[i]){
                         console.log("WRONG!!!");
                         this.gameOver = true;
+                        let finalScore:Number = this.currentTurn - 1;
+                        this.service.publishScore(finalScore.valueOf() / 20, finalScore.toString()) //high score is 20
                         this.newGame();
                         return;
                     }

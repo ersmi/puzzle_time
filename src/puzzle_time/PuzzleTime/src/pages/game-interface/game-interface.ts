@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GameService } from '../../providers/game-service';
+import { GameRewardPage } from '../game-reward/game-reward';
 import * as Phaser from 'phaser-ce';
 
 /*
@@ -51,6 +52,11 @@ export class GameInterfacePage {
 
   phaserCreate(){
     this.navCtrl.pop();
+  }
+
+  endGame(){
+    this.game.stopGame();
+    this.navCtrl.push(GameRewardPage);
   }
 
 }
