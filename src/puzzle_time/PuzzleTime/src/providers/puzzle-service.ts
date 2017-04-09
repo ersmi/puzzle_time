@@ -15,6 +15,8 @@ export class PuzzleService {
   public data:JSON;
   public friendPuzzles:JSON;
 
+  public currentPuzzleId:String;
+
   public result;
 
   public message = 'Hello World.';
@@ -101,6 +103,14 @@ export class PuzzleService {
 
   getPicture(pictureid){//Returns an observable
       return this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
+  }
+
+  setCurrentPuzzle(id:String){
+    this.currentPuzzleId = id;
+  }
+
+  updatePuzzle(progress:String){
+    //send in PUT request with currentPuzzleId
   }
 
 }
