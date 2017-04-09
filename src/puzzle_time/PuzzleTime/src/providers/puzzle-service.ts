@@ -51,6 +51,13 @@ export class PuzzleService {
   getPuzzleSet(){
     console.log('getPuzzleSet called');
     
+    console.log(this.auth.userId);
+    console.log(this.auth.userId);
+    console.log(this.auth.userId);
+    
+    var observable = this.http.get('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken + '&userid=6');
+    observable.subscribe(res => console.log('thingy:' + JSON.parse(JSON.stringify(res))._body));
+    
     //this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
     
     // print the whole thing 
