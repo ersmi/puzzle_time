@@ -15,10 +15,5 @@
 
 	<ion-content padding>
 		<button ion-button full (click) = "goToFriends()">VIEW FRIENDS</button>
-		<div class="navButtons">
-		<gallery-card></gallery-card>
-		<button class="nav" ion-button (click) = "goLeft()"><</button>
-		<span [innerHTML]="picNum"></span>
-		<button class="nav" ion-button (click) = "goRight()">></button>
-		</div>
+		<gallery></gallery>
 	</ion-content>

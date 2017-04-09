@@ -14,10 +14,36 @@ import { GalleryCardComponent } from './../gallery-card/gallery-card';
   entryComponents: [GalleryCardComponent]
 })
 export class GalleryComponent {
-
-  //text: string;
+  public picNum = "";
+  public left = 1;
+  public right = 17;
 
   constructor() {
+    this.picNum = "1/17";
+  }
+
+  loadSet(userId:string = null){
+    if(userId == null){ //load own user puzzles
+
+    } else { 
+
+    }
+  }
+
+  goLeft(){
+    this.left--;
+    if(this.left < 1){
+      this.left = this.right;
+    }
+    this.picNum = this.left.toString() + "/" + this.right.toString();
+  }
+
+  goRight(){
+    this.left++;
+    if(this.left > this.right){
+      this.left = 1;
+    }
+    this.picNum = this.left.toString() + "/" + this.right.toString();
   }
 
 }

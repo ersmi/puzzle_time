@@ -25,6 +25,7 @@ export class PuzzleService {
 
   constructor(public auth: Authenticator, public http: Http) {
     console.log('Hello PuzzleService Provider');
+    this.getUserPuzzleSet();
   }
 
   getFriends(){
@@ -101,7 +102,9 @@ export class PuzzleService {
   //
 
   getUserPuzzleSet(){
-    
+    var observable = this.http.get('https://pt-b.herokuapp.com/a/user' + '?token=' + this.auth.userToken);
+    observable.subscribe(res => this.puzzleSet = JSON.parse(JSON.stringify(res)).puzzles);
+    console.log(this.puzzleSet);
   }
 
   getPuzzle(){
@@ -134,7 +137,10 @@ export class PuzzleService {
     this.currentPuzzleId = id;
   }
 
-  updatePuzzle(progress:String){
+  //upda
+
+  updatePuzzle(id:string, progress:String){
+    //this.http.put('https://pt-b.herokuapp.com/a/')
     //send in PUT request with currentPuzzleId
   }
 

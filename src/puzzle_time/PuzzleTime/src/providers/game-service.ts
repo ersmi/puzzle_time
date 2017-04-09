@@ -40,7 +40,6 @@ export class GameService {
     if(percent > this.currentScorePercent){
       this.currentScorePercent = percent;
       this.currentScoreActual = actual;
-      console.log(percent, actual);
     }
   }
 
