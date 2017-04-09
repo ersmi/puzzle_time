@@ -21,6 +21,8 @@ import { TimerCallCounter } from '../providers/timer-call-counter';
 import { PuzzleService } from '../providers/puzzle-service';
 import { GameService } from '../providers/game-service';
 import { Authenticator } from '../providers/authenticator';
+import { UserService } from '../providers/user-service';
+import { AddFriendsPage } from '../pages/add-friends/add-friends';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { Authenticator } from '../providers/authenticator';
     SelectActivityPage,
     ChoosePuzzlePage,
     SubmitPage,
+    AddFriendsPage,
     UserInfoComponent,
     TimeComponent,
     GalleryCardComponent,
@@ -58,6 +61,7 @@ import { Authenticator } from '../providers/authenticator';
     GameInterfacePage,
     SelectActivityPage,
     ChoosePuzzlePage,
+    AddFriendsPage,
     SubmitPage,
     UserInfoComponent,
     TimeComponent,
@@ -69,7 +73,8 @@ import { Authenticator } from '../providers/authenticator';
     TimerCallCounter,
     PuzzleService,
     GameService,
-    Authenticator
+    Authenticator,
+    UserService
   ]
 })
 export class AppModule {}

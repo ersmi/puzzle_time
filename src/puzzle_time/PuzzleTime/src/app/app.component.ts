@@ -9,6 +9,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { FriendListPage } from '../pages/friend-list/friend-list';
 import { SubmitPage } from '../pages/submit/submit';
 import { GameInterfacePage } from '../pages/game-interface/game-interface';
+import { AddFriendsPage } from '../pages/add-friends/add-friends';
 
 @Component({
   templateUrl: 'app.html'

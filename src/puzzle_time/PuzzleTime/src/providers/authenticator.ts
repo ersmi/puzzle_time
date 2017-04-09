@@ -15,6 +15,8 @@ export class Authenticator {
 
   public userName = '';
 
+  public userId;
+
   public isAuthenticated = false;
 
   constructor(public http: Http) {
@@ -28,11 +30,18 @@ export class Authenticator {
     try{
       var observable = this.http.post('https://pt-b.herokuapp.com/a/login', body);
       observable.subscribe(res => this.userToken = JSON.parse(JSON.stringify(res))._body);
+      observable.subscribe(res => this.getUserId());
       this.userName = username;
       return observable;
     } catch (e){
       console.log("Encountered error:" + e.message);
     }
+  }
+
+  getUserId(){
+      var observable = this.http.get('https://pt-b.herokuapp.com/a/login' + '?token=' + this.userToken);
+      observable.subscribe(res => this.userId = JSON.parse(JSON.stringify(res))._body);
+      observable.subscribe(res => console.log('User ID:' + JSON.parse(JSON.stringify(res))._body));
   }
 
 }

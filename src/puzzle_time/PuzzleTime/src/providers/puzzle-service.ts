@@ -26,16 +26,27 @@ export class PuzzleService {
   }
 
   getFriends(){
-      var observable = this.http.get('https://pt-b.herokuapp.com/a/login');
-      observable.subscribe(res => console.log(JSON.parse(JSON.stringify(res))._body));
+      var observable = this.http.get('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken);
+      observable.subscribe(res => this.makeFriendsArray(res));
       //this.userName = username;
-      //return observable;
+      return observable;
   }
-  
+
+  makeFriendsArray(res){
+      console.log(JSON.parse(JSON.stringify(res)));
+  }
+
+  addFriend(friendID){
+      var body = 'friends=' + friendID.toString(); 
+      console.log('Body:' + 'friends=' + friendID.toString());  
+      var observable = this.http.put('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken, body);
+      observable.subscribe(res => console.log(JSON.parse(JSON.stringify(res))));
+      return observable;
+  }
+
   //
 
   getPuzzleSet(){
-    this.getFriends();
     console.log('getPuzzleSet called');
     
     //this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
@@ -88,17 +99,8 @@ export class PuzzleService {
     });*/
   }
 
-  getPicture(pictureid){
-    this.doFakeAuthenticationStuff();
-    setTimeout(() => {
-        this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
-    }, 10000);
-  }
-
-
-
-  doFakeAuthenticationStuff(){
-    this.auth.authenticate('David','Krall');
+  getPicture(pictureid){//Returns an observable
+      return this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
   }
 
 }
