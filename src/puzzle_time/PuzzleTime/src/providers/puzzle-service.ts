@@ -15,6 +15,8 @@ export class PuzzleService {
   public data:JSON;
   public friendPuzzles:JSON;
 
+  public currentPuzzleId:String;
+
   public result;
 
   public message = 'Hello World.';
@@ -99,6 +101,14 @@ export class PuzzleService {
 
   doFakeAuthenticationStuff(){
     this.auth.authenticate('David','Krall');
+  }
+
+  setCurrentPuzzle(id:String){
+    this.currentPuzzleId = id;
+  }
+
+  updatePuzzle(progress:String){
+    //send in PUT request with currentPuzzleId
   }
 
 }

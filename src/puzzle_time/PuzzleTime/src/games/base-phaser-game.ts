@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class BasePhaserGame{
     public phaser;
+    public service;
     constructor(){ //signals for game end, game save, game load, game score
     }
 

@@ -46,6 +46,7 @@ export class GameInterfacePage {
       }
     ));
     this.game = game;
+    this.game.service = this.gameService;
   }
 
   phaserCreate(){
