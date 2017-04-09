@@ -58,6 +58,24 @@ export class PuzzleService {
     var observable = this.http.get('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken + '&userid=6');
     observable.subscribe(res => console.log('thingy:' + JSON.parse(JSON.stringify(res))._body));
     
+    
+    //this doesn't work
+    console.log("Test1");
+    var observable2 = this.http.get('https://pt-b.herokuapp.com/a/login?token=' + this.auth.userToken);
+    observable2.subscribe(res => console.log('Test 1a: ' + JSON.stringify(res)));
+    observable2.subscribe(res => console.log('Test 1b: ' + (res.json()).id));
+    
+    //this works
+    console.log("Test2");
+    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log('Test 2a: ' + JSON.stringify(res)));
+    this.http.get('http://ip.jsontest.com/').subscribe(res => console.log('Test 2b: ' + (res.json()).ip));
+    
+    
+    //observable2.subscribe(res => console.log((res.json()).id));
+    //observable2.subscribe(res => console.log('thingy2b:' + (res.json()).id));
+
+
+    
     //this.http.get('http://ip.jsontest.com/').subscribe(res => console.log(JSON.stringify(res)));
     
     // print the whole thing 
