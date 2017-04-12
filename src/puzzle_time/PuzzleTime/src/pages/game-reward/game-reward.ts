@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { PuzzleService } from '../../providers/puzzle-service';
 import { GameService } from '../../providers/game-service';
+import { GalleryComponent } from './../../components/gallery/gallery';
+import { TimerPage } from '../timer/timer';
+import { HomePage } from '../home/home';
 
 
 /*
@@ -12,20 +15,29 @@ import { GameService } from '../../providers/game-service';
 */
 @Component({
   selector: 'page-game-reward',
-  templateUrl: 'game-reward.html'
+  templateUrl: 'game-reward.html',
+  entryComponents: [GalleryComponent]
 })
 export class GameRewardPage {
 
   constructor(public navCtrl: NavController, public puzzleService: PuzzleService, public gameService: GameService) {
-    this.puzzleService.getUserPuzzleSet();
+    //this.puzzleService.getUserPuzzleSet();
   }
 
   ionViewDidLoad() {
     console.log('Hello GameRewardPage Page');
   }
 
+  goToTimer(){
+  		this.navCtrl.setPages([TimerPage]);
+  }
+
+  goToHome(){
+      this.navCtrl.setPages([HomePage]);
+  }
+
   //get top score from game service
-  //display ***** ranking and award pieces from puzzle service
+  //display number of awarded pieces and highlight them
   //link to timer page
   //link to home page
 

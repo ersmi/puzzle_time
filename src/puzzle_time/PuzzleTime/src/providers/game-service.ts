@@ -17,12 +17,12 @@ export class GameService {
   }
 
   getGameList(){
-    return ["animal"];
+    return ["animal memory"];
   }
 
   getGame(id:string){
     switch(id){
-      case "animal":
+      case "animal memory":
         return AnimalPhaserGame;
     }
   }
@@ -41,6 +41,10 @@ export class GameService {
       this.currentScorePercent = percent;
       this.currentScoreActual = actual;
     }
+  }
+
+  getFinalScore(){
+    return this.currentScorePercent;
   }
 
   finishGame(){

@@ -19,7 +19,7 @@ export class GalleryComponent {
   public right = 17;
 
   constructor() {
-    this.picNum = "1/17";
+    this.picNum = "1/1";
   }
 
   loadSet(userId:string = null){

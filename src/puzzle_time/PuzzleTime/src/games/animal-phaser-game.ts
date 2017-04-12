@@ -67,7 +67,7 @@ export class AnimalPhaserGame extends BasePhaserGame{
                         console.log("WRONG!!!");
                         this.gameOver = true;
                         let finalScore:Number = this.currentTurn - 1;
-                        this.service.publishScore(finalScore.valueOf() / 20, finalScore.toString()) //high score is 20
+                        this.service.publishScore(finalScore.valueOf() / 3, finalScore.toString()) //high score is 20 TODO currently 5 to test
                         this.newGame();
                         return;
                     }

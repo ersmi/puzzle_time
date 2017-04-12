@@ -44,11 +44,11 @@ export class TimerCallCounter {
       this.isSet = true;
       this.sleepTicks = 0;
       var totalLength;
-      if(this.count % 2 == 0 && this.count < 7){
+      //if(this.count % 2 == 0 && this.count < 7){
         totalLength = 1560;
-      }else{
-        totalLength = 360;
-      }
+      //}else{
+      //  totalLength = 360;
+      //}
 
       this.count = this.count + 1;
       if(this.count == 9){

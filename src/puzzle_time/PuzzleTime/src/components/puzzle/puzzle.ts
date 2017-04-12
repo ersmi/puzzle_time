@@ -18,14 +18,16 @@ export class PuzzleComponent {
   //least significant bit is top left, increases left to right, top to bottom
   //1 means we have obtained that piece, 0 is a hole.
   piecesData:number = 0b011000011;
+  public currentPicture;
 
   constructor(public puzzleService: PuzzleService) {
     //this.puzzleService.getPicture(11); //Delete this 
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
-    this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
+    this.piecesData = parseInt(puzzleService.getCurrentProgress(), 2);
+    this.currentPicture = puzzleService.getPicture(1);
   }
-
+  
   canvasClicked(evt){
   
     //this.puzzleService.getPuzzleSet();

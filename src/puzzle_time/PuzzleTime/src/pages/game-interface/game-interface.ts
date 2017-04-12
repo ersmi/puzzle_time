@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GameService } from '../../providers/game-service';
+import { PuzzleService } from '../../providers/puzzle-service';
 import { GameRewardPage } from '../game-reward/game-reward';
 import * as Phaser from 'phaser-ce';
 
@@ -17,7 +18,9 @@ import * as Phaser from 'phaser-ce';
 export class GameInterfacePage {
   //public game;
   public game;
-  constructor(public navCtrl: NavController, public gameService: GameService) {}
+  constructor(public navCtrl: NavController, public gameService: GameService, public puzzleService: PuzzleService) {
+    console.log(navCtrl);
+  }
 
   ionViewDidLoad() {
     console.log('Hello GameInterfacePage Pages');
@@ -56,7 +59,8 @@ export class GameInterfacePage {
 
   endGame(){
     this.game.stopGame();
-    this.navCtrl.push(GameRewardPage);
+    this.puzzleService.rewardScore(this.gameService.getFinalScore());
+    this.navCtrl.setPages([GameRewardPage]);
   }
 
 }

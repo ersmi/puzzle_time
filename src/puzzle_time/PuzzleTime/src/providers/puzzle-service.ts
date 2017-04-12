@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class PuzzleService {
-  public puzzleSet:JSON;
+  public puzzleSet:Array<string>;
   public data:JSON;
   public friendPuzzles:JSON;
 
@@ -25,7 +25,9 @@ export class PuzzleService {
 
   constructor(public auth: Authenticator, public http: Http) {
     console.log('Hello PuzzleService Provider');
-    this.getUserPuzzleSet();
+    let r:string = (((1 << Math.floor(Math.random() * 16)) + (1 << Math.floor(Math.random() * 16))) as Number).toString(2);
+    console.log("r = " + r);
+    this.puzzleSet = [r];
   }
 
   getFriends(){
@@ -130,7 +132,7 @@ export class PuzzleService {
   }
 
   getPicture(pictureid){//Returns an observable
-      return this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
+      return "https://www.northcountrypublicradio.org/news/images/dofinshades_600.jpg";//this.http.get('https://pt-b.herokuapp.com/a/picture?pictureid=' + pictureid + '&token=' + this.auth.userToken).subscribe(res => console.log(JSON.stringify(res)));
   }
 
   setCurrentPuzzle(id:String){
@@ -142,6 +144,35 @@ export class PuzzleService {
   updatePuzzle(id:string, progress:String){
     //this.http.put('https://pt-b.herokuapp.com/a/')
     //send in PUT request with currentPuzzleId
+  }
+
+  getCurrentProgress(){
+    return this.puzzleSet[0];
+  }
+
+  rewardScore(score:number){
+    if(score > 1){
+      score = 1;
+    }
+    let arr = this.puzzleSet;
+    let exit:number = 100;
+    while(score >= .2 && exit > 0){
+      let randPuzzle:number = Math.floor(Math.random() * arr.length);
+      let randPiece:number = Math.floor(Math.random() * arr[randPuzzle].length);
+      for(let i = 0; i < arr[randPuzzle].length; i++){
+        let j = (randPiece + i) % arr[randPuzzle].length;
+        if(arr[randPuzzle].charAt(j) == "0"){
+          arr[randPuzzle] = arr[randPuzzle].slice(0, j-1) + "1" + arr[randPuzzle].slice(j+1);
+          score -= .2;
+          break;
+        }
+      }
+      /*if(not in recentlyUpdated)
+      this.recentlyUpdated = 
+      */
+      exit--;
+    }
+    this.puzzleSet = arr;
   }
 
 }
