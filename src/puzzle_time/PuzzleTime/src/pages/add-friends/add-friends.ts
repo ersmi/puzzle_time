@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import { NavController } from 'ionic-angular';
 import { UserService } from '../../providers/user-service';
 import { UserSearchResultsComponent } from './../../components/user-search-results/user-search-results';
-=======
-import { NavController, NavParams } from 'ionic-angular';
->>>>>>> 3349d20363ccad69f4e9a8c66eb914e0c06fa711
 
 /*
   Generated class for the AddFriends page.
