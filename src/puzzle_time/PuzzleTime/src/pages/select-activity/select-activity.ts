@@ -16,7 +16,7 @@ import { GameInterfacePage } from '../game-interface/game-interface';
   templateUrl: 'select-activity.html'
 })
 export class SelectActivityPage {
-  private gameList:Array<string>;
+  public gameList:Array<string>;
   constructor(public navCtrl: NavController, public callCounter: TimerCallCounter, public gameService:GameService) {
     this.gameList = gameService.getGameList();
   }
@@ -26,10 +26,10 @@ export class SelectActivityPage {
   }
 
   getPiece(){
-  		this.navCtrl.push(TimerPage);
+  		this.navCtrl.popToRoot();
   }
   startGame(id:string){
     this.gameService.setCurrentGame(id);
-  	this.navCtrl.push(GameInterfacePage);
+    this.navCtrl.setPages([GameInterfacePage]);
   }
 }

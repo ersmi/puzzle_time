@@ -5,11 +5,15 @@
   for more info on Angular 2 Components.
 -->
 
-<div>
-  <ion-card id="cardA">
+<div class="navButtons">
+<!--  <ion-card id="cardA">
 <gallery-card></gallery-card>
 </ion-card>
 <ion-card id="cardB">
 <gallery-card></gallery-card>
-</ion-card>
+</ion-card>-->
+<gallery-card></gallery-card>
+<button class="nav" ion-button (click) = "goLeft()"><</button>
+<span [innerHTML]="picNum"></span>
+<button class="nav" ion-button (click) = "goRight()">></button>
 </div>

@@ -11,16 +11,18 @@ import { AnimalPhaserGame } from '../games/animal-phaser-game';
 @Injectable()
 export class GameService {
   public currentGameId:string;
+  public currentScorePercent:number;
+  public currentScoreActual:string
   constructor() {
   }
 
   getGameList(){
-    return ["animal"];
+    return ["animal memory"];
   }
 
-  getGame(id:String){
+  getGame(id:string){
     switch(id){
-      case "animal":
+      case "animal memory":
         return AnimalPhaserGame;
     }
   }
@@ -28,5 +30,33 @@ export class GameService {
   setCurrentGame(id:string){
     this.currentGameId = id;
   }
+
+  startGame(){
+    this.currentScorePercent = 0;
+    this.currentScoreActual = "";
+  }
+
+  publishScore(percent:number, actual:string){ //where percent is a number between 0 and 1 and actual is the score to display
+    if(percent > this.currentScorePercent){
+      this.currentScorePercent = percent;
+      this.currentScoreActual = actual;
+    }
+  }
+
+  getFinalScore(){
+    return this.currentScorePercent;
+  }
+
+  finishGame(){
+
+  }
+
+  /*loadGame(){ //saves game state data to local storage
+    //return new Promise();
+  }
+
+  saveGame(){
+
+  }*/
 
 }

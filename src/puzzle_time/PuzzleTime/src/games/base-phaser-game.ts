@@ -12,10 +12,15 @@ export class BasePhaserGame{
         this.phaser = p;
     }
 
+    stopGame(){ //do anything before the game closes
+
+    }
+
     preload(){
     }
 
     create(){
+        this.service.startGame();
     }
 
     update(){

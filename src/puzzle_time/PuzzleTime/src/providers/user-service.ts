@@ -47,5 +47,4 @@ export class UserService {
   		var friendsArray = JSON.parse(json.replace(/&quot;/g,'"')).users;
       return friendsArray;
   }
-
 }

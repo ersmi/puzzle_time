@@ -13,5 +13,6 @@
 
 <ion-content padding>
 <button ion-button full (click) = "getPiece()" >GET PIECE NOW</button>	
+<h3>or play a game:</h3>
 <button ion-button full *ngFor="let item of gameList" (click) = "startGame(item)">{{item}}</button>
 </ion-content>

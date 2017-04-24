@@ -18,17 +18,19 @@ export class PuzzleComponent {
   //least significant bit is top left, increases left to right, top to bottom
   //1 means we have obtained that piece, 0 is a hole.
   piecesData:number = 0b011000011;
+  public currentPicture;
 
   constructor(public puzzleService: PuzzleService) {
-    this.puzzleService.getPicture(11); //Delete this 
+    //this.puzzleService.getPicture(11); //Delete this 
     //console.log('Hello Puzzle Component');
     //this.text = 'Hello World';
-    this.piecesData = Math.floor(Math.random() * 0b1111111111111111);
+    this.piecesData = parseInt(puzzleService.getCurrentProgress(), 2);
+    this.currentPicture = puzzleService.getPicture(1);
   }
-
+  
   canvasClicked(evt){
   
-    this.puzzleService.getPuzzleSet();
+    //this.puzzleService.getPuzzleSet();
     
     let overlay:HTMLCanvasElement = document.getElementById("gridOverlay") as HTMLCanvasElement;
     let xpos:number = Math.floor(((evt.offsetX) * this.columns)/overlay.width);
@@ -57,7 +59,7 @@ export class PuzzleComponent {
     overlayContext.fillStyle = "#F0F0F0";
     overlayContext.strokeStyle = "#DCDCDC";
     for(let r:number = 0; r < this.rows; r++){
-      for(let c:number = 0; c < this.columns; c++){ //how many languages does this project use?
+      for(let c:number = 0; c < this.columns; c++){ //how many languages does this project use?!?!
         if(pData & 1){ //binary AND with the least significant bit
           overlayContext.lineWidth = .5;
           overlayContext.strokeRect(pieceWidth * c, pieceHeight * r, pieceWidth, pieceHeight);
