@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Authenticator } from '../../providers/authenticator';
+import { UserService } from '../../providers/user-service';
 
 /*
   Generated class for the UserInfo component.
@@ -18,13 +19,10 @@ export class UserInfoComponent {
 
   text: string;
 
-  constructor(public auth: Authenticator, public http: Http) {
+  constructor(public auth: Authenticator, public http: Http, public uServ: UserService) {
     //console.log('Hello UserInfo Component');
     //this.text = 'Hello World';
-  }
-
-  getUserInfo(){
-      
+    this.userName = 'Joe Noe';
   }
 
 }

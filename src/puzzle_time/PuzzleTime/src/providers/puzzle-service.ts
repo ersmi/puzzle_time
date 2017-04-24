@@ -27,25 +27,6 @@ export class PuzzleService {
     console.log('Hello PuzzleService Provider');
   }
 
-  getFriends(){
-      var observable = this.http.get('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken);
-      observable.subscribe(res => this.makeFriendsArray(res));
-      //this.userName = username;
-      return observable;
-  }
-
-  makeFriendsArray(res){
-      console.log(JSON.parse(JSON.stringify(res)));
-  }
-
-  addFriend(friendID){
-      var body = 'friends=' + friendID.toString(); 
-      console.log('Body:' + 'friends=' + friendID.toString());  
-      var observable = this.http.put('https://pt-b.herokuapp.com/a/user?token=' + this.auth.userToken, body);
-      observable.subscribe(res => console.log(JSON.parse(JSON.stringify(res))));
-      return observable;
-  }
-
   //
 
   getPuzzleSet(){

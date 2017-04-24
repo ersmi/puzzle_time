@@ -13,6 +13,7 @@ import { GameInterfacePage } from '../pages/game-interface/game-interface';
 import { SelectActivityPage } from '../pages/select-activity/select-activity';
 import { ChoosePuzzlePage } from '../pages/choose-puzzle/choose-puzzle';
 import { UserInfoComponent } from '../components/user-info/user-info';
+import { UserSearchResultsComponent } from '../components/user-search-results/user-search-results';
 import { TimeComponent } from '../components/time/time';
 import { GalleryCardComponent } from '../components/gallery-card/gallery-card';
 import { GalleryComponent } from '../components/gallery/gallery';
@@ -43,7 +44,8 @@ import { AddFriendsPage } from '../pages/add-friends/add-friends';
     TimeComponent,
     GalleryCardComponent,
     PuzzleComponent,
-    GalleryComponent
+    GalleryComponent,
+    UserSearchResultsComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -67,7 +69,8 @@ import { AddFriendsPage } from '../pages/add-friends/add-friends';
     TimeComponent,
     GalleryCardComponent,
     PuzzleComponent,
-    GalleryComponent
+    GalleryComponent,
+    UserSearchResultsComponent
   ],
   providers: [
     TimerCallCounter,

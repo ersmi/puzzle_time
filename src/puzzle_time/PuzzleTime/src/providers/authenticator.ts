@@ -29,8 +29,6 @@ export class Authenticator {
     body.append('password', password);
     try{
       var observable = this.http.post('https://pt-b.herokuapp.com/a/login', body);
-      observable.subscribe(res => this.userToken = JSON.parse(JSON.stringify(res))._body);
-      observable.subscribe(res => this.getUserId());
       this.userName = username;
       return observable;
     } catch (e){
@@ -38,10 +36,16 @@ export class Authenticator {
     }
   }
 
-  getUserId(){
+  getUserId(res1){
+      this.userToken = JSON.parse(JSON.stringify(res1))._body;
       var observable = this.http.get('https://pt-b.herokuapp.com/a/login' + '?token=' + this.userToken);
       observable.subscribe(res => this.userId = JSON.parse(JSON.stringify(res))._body);
-      observable.subscribe(res => console.log('User ID:' + JSON.parse(JSON.stringify(res))._body));
+      this.testThingy();
   }
 
+  testThingy(){
+      var observable = this.http.get('https://pt-b.herokuapp.com/a/login' + '?userid=6&'+ 'token=' + this.userToken);
+      observable.subscribe(res => console.log(JSON.parse(JSON.stringify(res))._body));
+      observable.subscribe(res => console.log(JSON.parse(JSON.parse(JSON.stringify(res))._body).puzzles));
+  }
 }

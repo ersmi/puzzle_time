@@ -31,10 +31,11 @@ export class LoginPage {
   	console.log(this.user);
   	console.log(this.password);
   	var obs = this.auth.authenticate(username, password);
-  	obs.subscribe(res => this.pushHome());
+  	obs.subscribe(res => this.pushHome(res));
   }
 
-  pushHome(){
+  pushHome(res){
+    this.auth.getUserId(res);
     if(this.auth.userToken !== ''){
       this.navCtrl.pop();
     }

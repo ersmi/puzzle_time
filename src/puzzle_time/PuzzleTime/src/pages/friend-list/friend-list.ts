@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GalleryComponent } from './../../components/gallery/gallery';
-import { PuzzleService } from '../../providers/puzzle-service';
+import { UserService } from '../../providers/user-service';
+import { AddFriendsPage } from '../add-friends/add-friends';
+
 /*
   Generated class for the FriendList page.
 
@@ -15,11 +17,9 @@ import { PuzzleService } from '../../providers/puzzle-service';
 })
 export class FriendListPage {
 
-  constructor(public navCtrl: NavController, public puzz: PuzzleService) {
-      var friends = [4];
-      this.puzz.addFriend(friends);
-      var obs = this.puzz.getFriends();
-      //obs.subscribe(res => populateFriends());
+  constructor(public navCtrl: NavController, public uServ: UserService) {
+      var obs = this.uServ.getFriends();
+      obs.subscribe(res => this.populateFriends());
   }
 
   ionViewDidLoad() {
@@ -31,7 +31,7 @@ export class FriendListPage {
   }
 
   goToAddFriends(){
-      //this.navCtrl.push();
+      this.navCtrl.push(AddFriendsPage);
   }
 
 }
